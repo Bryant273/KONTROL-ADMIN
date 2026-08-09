@@ -1,0 +1,6 @@
+{
+  "name": "KONTROL ERP - Admin Interface",
+  "description": "Interface d'administration centrale pour KONTROL ERP : gestion des utilisateurs, abonnements, paiements Orange Money/MTN/Stripe, templates, tickets SLA et tableaux de bord.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
