@@ -68,26 +68,26 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-kontrol p-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-slate-900 font-jakarta tracking-tight">
+            <h1 className="text-lg font-bold text-[#003050]">
               Abonnements & Plans Tarifaires
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-sky-100 text-[#0284C7] text-[10px] font-black uppercase tracking-wider">
+            <span className="badge b-premium">
               {subscriptions.length} Actifs
             </span>
           </div>
-          <p className="text-[13px] font-medium text-slate-500 mt-1">
+          <p className="text-[12px] text-[#7a9ab0] mt-0.5">
             Gestion des forfaits SaaS, renouvellements automatiques Mobile Money & notifications d'expiration.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="px-3 py-2 bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl text-[12px] font-bold flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
+          <div className="px-3 py-1.5 bg-[#fff3e8] border border-[rgba(224,96,32,0.2)] text-[#b35a00] rounded-[6px] text-[12px] font-bold flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-[#E06020]" />
             <span>{subscriptions.filter(s => s.daysRemaining <= 7 && s.status !== 'suspendu').length} Expirent &lt; 7 jours</span>
           </div>
         </div>
@@ -95,53 +95,53 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
 
       {/* Plans Tariff Cards Grid */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-extrabold text-slate-900 font-jakarta">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[14px] font-bold text-[#003050]">
             Grille des Offres KONTROL ERP
           </h2>
-          <span className="text-[11px] font-medium text-slate-500">
+          <span className="text-[11.5px] text-[#7a9ab0] hidden sm:inline">
             Cliquez sur un plan pour modifier ses tarifs & fonctionnalités
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {plans.map((plan) => (
             <div 
               key={plan.id}
-              className={`bg-white rounded-3xl border p-6 shadow-xs flex flex-col justify-between transition-all relative ${
-                plan.isPopular ? 'border-[#0284C7] ring-2 ring-[#0284C7]/20' : 'border-slate-200/80 hover:border-slate-300'
+              className={`card-kontrol p-4 flex flex-col justify-between transition-all relative ${
+                plan.isPopular ? 'border-[#50B0E0] ring-1 ring-[#50B0E0]/30' : ''
               }`}
             >
               {plan.isPopular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0284C7] text-white text-[9.5px] font-black uppercase px-3 py-0.5 rounded-full shadow-xs">
-                  Offre la plus populaire
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#50B0E0] text-white text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full shadow-xs">
+                  Populaire
                 </span>
               )}
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-black text-slate-900">{plan.name}</h3>
-                  <span className="text-[10px] font-mono font-bold text-slate-400">
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-[15px] font-extrabold text-[#003050]">{plan.name}</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#7a9ab0]">
                     {plan.subscriberCount} abonnés
                   </span>
                 </div>
 
-                <div className="text-2xl font-black text-slate-900 font-mono tracking-tight my-2">
-                  {formatFCFA(plan.priceMonthly)} <span className="text-xs font-normal text-slate-500">/mois</span>
+                <div className="text-[20px] font-black text-[#003050] font-mono tracking-tight my-1">
+                  {formatFCFA(plan.priceMonthly)} <span className="text-[11px] font-normal text-[#7a9ab0]">/mois</span>
                 </div>
 
-                <p className="text-[12px] font-medium text-slate-500 mb-4 line-clamp-2">
+                <p className="text-[11.5px] text-[#7a9ab0] mb-3 line-clamp-2">
                   {plan.description}
                 </p>
 
-                <div className="space-y-2 border-t border-slate-100 pt-4">
-                  <div className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                <div className="space-y-1.5 border-t border-[rgba(0,48,80,0.08)] pt-3">
+                  <div className="text-[10px] font-bold uppercase text-[#7a9ab0] tracking-wider">
                     Inclus dans {plan.name} :
                   </div>
                   {plan.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-[12px] font-medium text-slate-700">
-                      <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>{feat}</span>
+                    <div key={idx} className="flex items-start gap-1.5 text-[11.5px] text-[#2d4a60]">
+                      <Check className="w-3.5 h-3.5 text-[#1a7a45] shrink-0 mt-0.5" />
+                      <span className="line-clamp-1">{feat}</span>
                     </div>
                   ))}
                 </div>
@@ -149,7 +149,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
 
               <button
                 onClick={() => setSelectedPlanToEdit(plan)}
-                className="mt-6 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl text-[12px] font-extrabold transition-colors flex items-center justify-center gap-1.5"
+                className="mt-4 btn btn-ol w-full justify-center btn-sm"
               >
                 <Edit2 className="w-3.5 h-3.5" />
                 Editer le plan
@@ -160,107 +160,105 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
       </div>
 
       {/* Subscriptions List */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h2 className="text-base font-extrabold text-slate-900 font-jakarta">
-              Suivi des Souscriptions en Cours
-            </h2>
-            <p className="text-[12px] font-medium text-slate-500">
-              Renouvellements automatiques Mobile Money et alertes de statut.
-            </p>
-          </div>
+      <div className="tbl-card">
+        <div className="card-hd p-3.5 border-b border-[rgba(0,48,80,0.12)]">
+          <h2 className="card-title text-[14px] font-bold text-[#003050]">
+            Suivi des Souscriptions en Cours
+          </h2>
+          <p className="card-sub text-[11.5px] text-[#7a9ab0]">
+            Renouvellements automatiques Mobile Money et alertes de statut.
+          </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="tbl-wrap overflow-x-auto">
+          <table className="w-full text-left border-collapse text-[13px]">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-[10.5px] font-black uppercase text-slate-500 tracking-wider">
-                <th className="p-4 pl-6">Abonné / Entreprise</th>
-                <th className="p-4">Plan & Tarif</th>
-                <th className="p-4">Échéance & Décompte</th>
-                <th className="p-4">Renouvellement Auto</th>
-                <th className="p-4">Statut</th>
-                <th className="p-4 pr-6 text-right">Actions Admin</th>
+              <tr className="bg-[#F0F0F0] border-b border-[rgba(0,48,80,0.12)] text-[10.5px] font-semibold uppercase tracking-wider text-[#7a9ab0]">
+                <th className="p-3 pl-4">Abonné / Entreprise</th>
+                <th className="p-3">Plan & Tarif</th>
+                <th className="p-3">Échéance & Décompte</th>
+                <th className="p-3">Renouvellement Auto</th>
+                <th className="p-3">Statut</th>
+                <th className="p-3 pr-4 text-right">Actions Admin</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[13px] font-medium text-slate-800">
+            <tbody className="divide-y divide-[rgba(0,48,80,0.12)] text-[#0d1f2d]">
               {subscriptions.map((sub) => (
-                <tr key={sub.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="p-4 pl-6">
-                    <div className="font-extrabold text-slate-900">{sub.userName}</div>
-                    <div className="text-[11px] text-slate-500">{sub.company}</div>
+                <tr key={sub.id} className="hover:bg-[#f6fafd] transition-colors">
+                  <td className="p-3 pl-4">
+                    <div className="font-bold text-[#0d1f2d]">{sub.userName}</div>
+                    <div className="text-[11px] text-[#7a9ab0]">{sub.company}</div>
                   </td>
 
-                  <td className="p-4">
-                    <span className="font-bold text-slate-900 bg-slate-100 px-2.5 py-0.5 rounded-lg text-[11px]">
+                  <td className="p-3">
+                    <span className="badge b-standard">
                       {sub.planName}
                     </span>
-                    <div className="text-[11px] font-mono font-extrabold text-slate-700 mt-0.5">
+                    <div className="text-[11px] font-mono font-bold text-[#2d4a60] mt-0.5">
                       {formatFCFA(sub.price)} ({sub.billingCycle})
                     </div>
                   </td>
 
-                  <td className="p-4">
-                    <div className="font-mono text-slate-800 font-bold">{sub.nextBillingDate}</div>
+                  <td className="p-3">
+                    <div className="font-mono text-[#003050] font-bold">{sub.nextBillingDate}</div>
                     <div className={`text-[10.5px] font-bold ${
-                      sub.daysRemaining <= 3 ? 'text-rose-600' :
-                      sub.daysRemaining <= 7 ? 'text-amber-600' : 'text-slate-400'
+                      sub.daysRemaining <= 3 ? 'text-[#c0392b]' :
+                      sub.daysRemaining <= 7 ? 'text-[#b35a00]' : 'text-[#7a9ab0]'
                     }`}>
                       {sub.daysRemaining > 0 ? `${sub.daysRemaining} jours restants` : 'Expiré'}
                     </div>
                   </td>
 
-                  <td className="p-4">
+                  <td className="p-3">
                     <button
                       onClick={() => onUpdateSubscription({ ...sub, autoRenew: !sub.autoRenew })}
-                      className={`px-3 py-1 rounded-xl text-[11px] font-black uppercase flex items-center gap-1.5 transition-all ${
+                      className={`badge cursor-pointer transition-all ${
                         sub.autoRenew 
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
-                          : 'bg-slate-100 text-slate-500 border border-slate-200'
+                          ? 'b-actif' 
+                          : 'b-inactif'
                       }`}
                     >
-                      <RefreshCw className={`w-3 h-3 ${sub.autoRenew ? 'text-emerald-600' : 'text-slate-400'}`} />
+                      <RefreshCw className={`w-3 h-3 ${sub.autoRenew ? 'text-[#1a7a45]' : 'text-[#7a9ab0]'}`} />
                       {sub.autoRenew ? 'Activé' : 'Désactivé'}
                     </button>
                   </td>
 
-                  <td className="p-4">
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
-                      sub.status === 'actif' ? 'bg-emerald-100 text-emerald-800' :
-                      sub.status === 'expire_bientot' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'
+                  <td className="p-3">
+                    <span className={`badge ${
+                      sub.status === 'actif' ? 'b-actif' :
+                      sub.status === 'expire_bientot' ? 'b-attente' : 'badge bg-[#fdf0ee] text-[#c0392b]'
                     }`}>
-                      {sub.status === 'actif' ? 'Émeraude / Actif' :
-                       sub.status === 'expire_bientot' ? 'Ambre / Expire bientôt' : 'Rose / Suspendu'}
+                      {sub.status === 'actif' ? 'Actif' :
+                       sub.status === 'expire_bientot' ? 'Expire bientôt' : 'Suspendu'}
                     </span>
                   </td>
 
-                  <td className="p-4 pr-6 text-right">
-                    <div className="flex items-center justify-end gap-1.5">
+                  <td className="p-3 pr-4 text-right">
+                    <div className="flex flex-wrap items-center justify-end gap-1">
                       <button
                         onClick={() => onTriggerRenewalAlert(sub)}
-                        className="px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-xl text-[11px] font-bold transition-colors flex items-center gap-1"
-                        title="Envoyer une relance d'échéance par email"
+                        className="btn btn-ol btn-sm py-1 px-2 text-[11px]"
+                        title="Envoyer une relance par email"
                       >
-                        <Send className="w-3.5 h-3.5" />
+                        <Send className="w-3 h-3 text-[#E06020]" />
                         Relancer
                       </button>
 
                       <button
                         onClick={() => setSelectedSubToChange(sub)}
-                        className="px-2.5 py-1.5 bg-sky-50 hover:bg-sky-100 text-[#0284C7] rounded-xl text-[11px] font-bold transition-colors flex items-center gap-1"
-                        title="Changer de plan (Upgrade / Downgrade)"
+                        className="btn btn-ol btn-sm py-1 px-2 text-[11px]"
+                        title="Changer de plan"
                       >
-                        <Zap className="w-3.5 h-3.5" />
-                        Changer Plan
+                        <Zap className="w-3 h-3 text-[#50B0E0]" />
+                        Changer
                       </button>
 
                       <button
                         onClick={() => handleManualRenew(sub)}
-                        className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-[11px] font-bold transition-colors"
-                        title="Renouveler manuellement (+1 mois)"
+                        className="btn btn-dk btn-sm py-1 px-2 text-[11px]"
+                        title="Renouveler (+1 mois)"
                       >
-                        +1 Mois
+                        +1M
                       </button>
                     </div>
                   </td>
@@ -274,42 +272,42 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
       {/* Edit Plan Modal */}
       {selectedPlanToEdit && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl max-w-md w-full border border-slate-200 p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="text-base font-black text-slate-900 font-jakarta">
+          <div className="card-kontrol max-w-md w-full max-h-[90vh] overflow-y-auto p-4 space-y-3 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[rgba(0,48,80,0.12)] pb-2">
+              <h3 className="text-[14px] font-bold text-[#003050]">
                 Modifier le Plan {selectedPlanToEdit.name}
               </h3>
-              <button onClick={() => setSelectedPlanToEdit(null)} className="p-2 text-slate-400 hover:text-slate-700">
-                <X className="w-5 h-5" />
+              <button onClick={() => setSelectedPlanToEdit(null)} className="rab">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <div>
-                <label className="block text-[11px] font-black uppercase text-slate-500 mb-1">Prix Mensuel (FCFA)</label>
+                <label className="block text-[11px] font-bold text-[#7a9ab0] uppercase mb-0.5">Prix Mensuel (FCFA)</label>
                 <input
                   type="number"
                   value={selectedPlanToEdit.priceMonthly}
                   onChange={(e) => setSelectedPlanToEdit({ ...selectedPlanToEdit, priceMonthly: Number(e.target.value) })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 text-[12.5px] font-mono font-bold"
+                  className="w-full bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[6px] p-2 text-[12.5px] font-mono font-bold"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-black uppercase text-slate-500 mb-1">Description</label>
+                <label className="block text-[11px] font-bold text-[#7a9ab0] uppercase mb-0.5">Description</label>
                 <textarea
                   rows={3}
                   value={selectedPlanToEdit.description}
                   onChange={(e) => setSelectedPlanToEdit({ ...selectedPlanToEdit, description: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 text-[12.5px]"
+                  className="w-full bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[6px] p-2 text-[12.5px]"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[rgba(0,48,80,0.12)]">
               <button
                 onClick={() => setSelectedPlanToEdit(null)}
-                className="px-4 py-2 border border-slate-200 rounded-2xl text-[12px] font-bold"
+                className="btn btn-ol btn-sm"
               >
                 Annuler
               </button>
@@ -318,7 +316,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                   onUpdatePlan(selectedPlanToEdit);
                   setSelectedPlanToEdit(null);
                 }}
-                className="px-5 py-2 bg-[#0284C7] text-white rounded-2xl text-[12px] font-black"
+                className="btn btn-or btn-sm"
               >
                 Sauvegarder
               </button>
@@ -330,26 +328,26 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
       {/* Upgrade / Downgrade Plan Modal */}
       {selectedSubToChange && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl max-w-md w-full border border-slate-200 p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="text-base font-black text-slate-900 font-jakarta">
+          <div className="card-kontrol max-w-md w-full max-h-[90vh] overflow-y-auto p-4 space-y-3 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[rgba(0,48,80,0.12)] pb-2">
+              <h3 className="text-[14px] font-bold text-[#003050]">
                 Changer de Plan pour {selectedSubToChange.userName}
               </h3>
-              <button onClick={() => setSelectedSubToChange(null)} className="p-2 text-slate-400 hover:text-slate-700">
-                <X className="w-5 h-5" />
+              <button onClick={() => setSelectedSubToChange(null)} className="rab">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-[12.5px] text-slate-600">
-              Plan actuel: <strong className="text-slate-900">{selectedSubToChange.planName}</strong> ({formatFCFA(selectedSubToChange.price)}/m).
+            <p className="text-[12.5px] text-[#2d4a60]">
+              Plan actuel: <strong className="text-[#003050]">{selectedSubToChange.planName}</strong> ({formatFCFA(selectedSubToChange.price)}/m).
             </p>
 
             <div>
-              <label className="block text-[11px] font-black uppercase text-slate-500 mb-1">Nouveau Plan Souhaité</label>
+              <label className="block text-[11px] font-bold text-[#7a9ab0] uppercase mb-0.5">Nouveau Plan Souhaité</label>
               <select
                 value={newPlanTarget}
                 onChange={(e) => setNewPlanTarget(e.target.value as PlanType)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 text-[12.5px] font-extrabold"
+                className="w-full bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[6px] p-2 text-[12.5px] font-bold"
               >
                 {plans.map(p => (
                   <option key={p.id} value={p.name}>
@@ -359,18 +357,18 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               </select>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[rgba(0,48,80,0.12)]">
               <button
                 onClick={() => setSelectedSubToChange(null)}
-                className="px-4 py-2 border border-slate-200 rounded-2xl text-[12px] font-bold"
+                className="btn btn-ol btn-sm"
               >
                 Annuler
               </button>
               <button
                 onClick={handlePlanChangeSubmit}
-                className="px-5 py-2 bg-[#0284C7] text-white rounded-2xl text-[12px] font-black"
+                className="btn btn-or btn-sm"
               >
-                Appliquer la modification
+                Appliquer
               </button>
             </div>
           </div>

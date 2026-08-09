@@ -30,6 +30,10 @@
     background-color: var(--bg);
     color: var(--ink);
   }
+
+  button, select, summary, [role="button"] {
+    cursor: pointer;
+  }
   
   code, pre, .font-mono {
     font-family: 'JetBrains Mono', monospace;

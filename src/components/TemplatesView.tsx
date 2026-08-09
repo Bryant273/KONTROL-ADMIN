@@ -14,7 +14,8 @@ import {
   Tag,
   Copy,
   Layers,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { TemplateItem, TemplateVersion } from '../types';
 
@@ -88,36 +89,36 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
   const filteredTemplates = templates.filter(t => t.category === activeCategory);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-kontrol p-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-slate-900 font-jakarta tracking-tight">
+            <h1 className="text-lg font-bold text-[#003050]">
               Gestionnaire de Templates & Modèles
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-sky-100 text-[#0284C7] text-[10px] font-black uppercase tracking-wider">
+            <span className="badge b-premium font-mono">
               Versioning v2.1
             </span>
           </div>
-          <p className="text-[13px] font-medium text-slate-500 mt-1">
+          <p className="text-[12px] text-[#7a9ab0] mt-0.5">
             Personnalisation des factures, contrats d'engagement et emails de relance automatique.
           </p>
         </div>
 
         {/* Category Tabs */}
-        <div className="flex items-center gap-1 bg-slate-100 p-1.5 rounded-2xl text-[12px] font-extrabold">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 bg-[#F0F0F0] p-1 rounded-[8px] text-[12px]">
           <button
             onClick={() => {
               setActiveCategory('factures');
               const firstInCat = templates.find(t => t.category === 'factures');
               if (firstInCat) handleSelectTemplate(firstInCat);
             }}
-            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeCategory === 'factures' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-[6px] font-bold transition-all flex items-center gap-1.5 ${
+              activeCategory === 'factures' ? 'bg-[#003050] text-white shadow-xs' : 'text-[#7a9ab0] hover:text-[#0d1f2d]'
             }`}
           >
-            <FileText className="w-3.5 h-3.5 text-[#0284C7]" />
+            <FileText className="w-3.5 h-3.5 text-[#50B0E0]" />
             Factures
           </button>
 
@@ -127,11 +128,11 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               const firstInCat = templates.find(t => t.category === 'contrats');
               if (firstInCat) handleSelectTemplate(firstInCat);
             }}
-            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeCategory === 'contrats' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-[6px] font-bold transition-all flex items-center gap-1.5 ${
+              activeCategory === 'contrats' ? 'bg-[#003050] text-white shadow-xs' : 'text-[#7a9ab0] hover:text-[#0d1f2d]'
             }`}
           >
-            <FileCode className="w-3.5 h-3.5 text-amber-500" />
+            <FileCode className="w-3.5 h-3.5 text-[#E06020]" />
             Contrats
           </button>
 
@@ -141,45 +142,45 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               const firstInCat = templates.find(t => t.category === 'emails');
               if (firstInCat) handleSelectTemplate(firstInCat);
             }}
-            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeCategory === 'emails' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-[6px] font-bold transition-all flex items-center gap-1.5 ${
+              activeCategory === 'emails' ? 'bg-[#003050] text-white shadow-xs' : 'text-[#7a9ab0] hover:text-[#0d1f2d]'
             }`}
           >
-            <Mail className="w-3.5 h-3.5 text-emerald-500" />
+            <Mail className="w-3.5 h-3.5 text-[#1a7a45]" />
             Emails
           </button>
         </div>
       </div>
 
       {/* Main Grid: Sidebar Templates list + Editor + Live Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Template Selector Column */}
-        <div className="lg:col-span-3 space-y-3">
-          <div className="text-[10px] font-black uppercase text-slate-400 tracking-wider font-mono px-2">
+        <div className="lg:col-span-3 space-y-2">
+          <div className="text-[10px] font-bold uppercase text-[#7a9ab0] tracking-wider font-mono px-1">
             Modèles disponibles ({filteredTemplates.length})
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {filteredTemplates.map((tpl) => {
               const isSelected = tpl.id === selectedTemplateId;
               return (
                 <button
                   key={tpl.id}
                   onClick={() => handleSelectTemplate(tpl)}
-                  className={`w-full text-left p-4 rounded-2xl border transition-all ${
+                  className={`w-full text-left p-3 rounded-[8px] border transition-all ${
                     isSelected
-                      ? 'bg-white border-[#0284C7] ring-2 ring-[#0284C7]/20 shadow-xs'
-                      : 'bg-white border-slate-200/80 hover:border-slate-300'
+                      ? 'bg-white border-[#50B0E0] ring-1 ring-[#50B0E0]/30 shadow-xs'
+                      : 'card-kontrol hover:border-[rgba(0,48,80,0.25)]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono font-bold text-[#0284C7] bg-sky-50 px-2 py-0.5 rounded-full">
+                    <span className="badge b-premium text-[9.5px]">
                       {tpl.currentVersion}
                     </span>
-                    <span className="text-[10px] text-slate-400 font-medium">{tpl.lastModified.split(' ')[0]}</span>
+                    <span className="text-[10px] text-[#7a9ab0]">{tpl.lastModified.split(' ')[0]}</span>
                   </div>
-                  <div className="text-[13px] font-extrabold text-slate-900 line-clamp-1">{tpl.title}</div>
-                  <div className="text-[11px] text-slate-500 mt-1">Modifié par: {tpl.author}</div>
+                  <div className="text-[13px] font-bold text-[#003050] line-clamp-1">{tpl.title}</div>
+                  <div className="text-[11px] text-[#7a9ab0] mt-0.5">Par: {tpl.author}</div>
                 </button>
               );
             })}
@@ -188,19 +189,19 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
 
         {/* Editor & Preview Pane */}
         {currentTemplate && (
-          <div className="lg:col-span-9 bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs space-y-5">
+          <div className="lg:col-span-9 card-kontrol p-4 space-y-4">
             {/* Template Header Toolbar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[rgba(0,48,80,0.12)] pb-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-black text-slate-900 font-jakarta">
+                  <h2 className="text-[15px] font-extrabold text-[#003050]">
                     {currentTemplate.title}
                   </h2>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-900 text-white font-mono text-[10px] font-bold">
+                  <span className="badge b-standard font-mono">
                     {currentTemplate.currentVersion}
                   </span>
                 </div>
-                <p className="text-[11.5px] text-slate-500">
+                <p className="text-[11.5px] text-[#7a9ab0]">
                   Dernière révision: {currentTemplate.lastModified} par {currentTemplate.author}
                 </p>
               </div>
@@ -208,44 +209,44 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setShowVersionDrawer(!showVersionDrawer)}
-                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl text-[12px] font-extrabold transition-colors flex items-center gap-1.5"
+                  className="btn btn-ol btn-sm"
                 >
-                  <Layers className="w-4 h-4 text-slate-600" />
-                  Historique Versions ({currentTemplate.versionHistory.length})
+                  <Layers className="w-3.5 h-3.5 text-[#50B0E0]" />
+                  Historique ({currentTemplate.versionHistory.length})
                 </button>
 
                 <button
                   onClick={handleSaveNewVersion}
-                  className="px-4 py-2 bg-[#0284C7] hover:bg-[#0369A1] text-white rounded-2xl text-[12px] font-black shadow-xs transition-all flex items-center gap-1.5 active:scale-95"
+                  className="btn btn-or btn-sm"
                 >
-                  <Save className="w-4 h-4" />
-                  Publier Nouvelle Version
+                  <Save className="w-3.5 h-3.5" />
+                  Publier Version
                 </button>
               </div>
             </div>
 
             {saveSuccessNotice && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-[12px] font-extrabold flex items-center gap-2 animate-pulse">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                Nouvelle version publiée avec succès et enregistrée dans le versioning !
+              <div className="p-2.5 bg-[#e8f7ef] border border-[#1a7a45]/30 text-[#1a7a45] rounded-[6px] text-[12px] font-bold flex items-center gap-2 animate-pulse">
+                <CheckCircle2 className="w-4 h-4 text-[#1a7a45]" />
+                Nouvelle version publiée avec succès !
               </div>
             )}
 
             {/* Variable Tags Selector */}
-            <div className="space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200/60">
-              <div className="flex items-center justify-between text-[10.5px] font-black uppercase text-slate-500 tracking-wider font-mono">
-                <span>Variables dynamiques disponibles (Cliquez pour insérer)</span>
-                <span>Format: Handlebars</span>
+            <div className="space-y-1.5 bg-[#F0F0F0] p-3 rounded-[6px] border border-[rgba(0,48,80,0.12)]">
+              <div className="flex items-center justify-between text-[10px] font-bold uppercase text-[#7a9ab0] tracking-wider font-mono">
+                <span>Variables dynamiques (Cliquer pour insérer)</span>
+                <span>Handlebars</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {currentTemplate.variables.map((v, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => handleInsertVariable(v)}
-                    className="px-2.5 py-1 bg-white border border-slate-200 hover:border-[#0284C7] hover:text-[#0284C7] rounded-xl text-[11px] font-mono font-extrabold text-slate-700 shadow-2xs transition-colors flex items-center gap-1"
+                    className="px-2 py-0.5 bg-white border border-[rgba(0,48,80,0.12)] hover:border-[#50B0E0] hover:text-[#50B0E0] rounded-[5px] text-[11px] font-mono font-bold text-[#003050] transition-colors flex items-center gap-1"
                   >
-                    <Tag className="w-3 h-3 text-sky-500" />
+                    <Tag className="w-3 h-3 text-[#50B0E0]" />
                     {v}
                   </button>
                 ))}
@@ -253,26 +254,26 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
             </div>
 
             {/* Editor & Visual Live Preview Side-By-Side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {/* Code Editor */}
-              <div className="space-y-2">
-                <label className="block text-[11px] font-black uppercase text-slate-500 font-mono">
+              <div className="space-y-1">
+                <label className="block text-[10.5px] font-bold uppercase text-[#7a9ab0] font-mono">
                   Éditeur de Modèle (Source)
                 </label>
                 <textarea
-                  rows={14}
+                  rows={12}
                   value={editableContent}
                   onChange={(e) => setEditableContent(e.target.value)}
-                  className="w-full bg-slate-950 text-sky-300 font-mono text-[11.5px] p-4 rounded-2xl border border-slate-800 focus:outline-none focus:border-[#0284C7] leading-relaxed resize-none shadow-inner"
+                  className="w-full bg-[#003050] text-[#50B0E0] font-mono text-[11.5px] p-3 rounded-[6px] border border-white/10 focus:outline-none focus:border-[#50B0E0] leading-relaxed resize-none shadow-inner"
                 />
               </div>
 
               {/* Live Preview Pane */}
-              <div className="space-y-2">
-                <label className="block text-[11px] font-black uppercase text-slate-500 font-mono">
-                  Aperçu Visuel en Direct (Rendu Client)
+              <div className="space-y-1">
+                <label className="block text-[10.5px] font-bold uppercase text-[#7a9ab0] font-mono">
+                  Aperçu Visuel en Direct
                 </label>
-                <div className="w-full h-[330px] bg-slate-50 border border-slate-200 rounded-2xl p-5 overflow-y-auto text-[12px] font-medium text-slate-800 whitespace-pre-wrap leading-relaxed shadow-2xs">
+                <div className="w-full h-[280px] bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[6px] p-3.5 overflow-y-auto text-[12px] font-medium text-[#0d1f2d] whitespace-pre-wrap leading-relaxed">
                   {editableContent
                     .replace(/\{\{client_nom\}\}/g, 'Amadou Diallo')
                     .replace(/\{\{entreprise_nom\}\}/g, 'Africom Logistics & Distribution')
@@ -289,8 +290,8 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
             </div>
 
             {/* Commit Message Input */}
-            <div className="pt-2">
-              <label className="block text-[11px] font-black uppercase text-slate-500 mb-1">
+            <div className="pt-1">
+              <label className="block text-[10.5px] font-bold uppercase text-[#7a9ab0] mb-0.5">
                 Note de révision pour le Changelog Admin
               </label>
               <input
@@ -298,7 +299,7 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
                 value={commitComment}
                 onChange={(e) => setCommitComment(e.target.value)}
                 placeholder="ex: Ajout de la mention d'exonération TVA et lien direct Mobile Money"
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 text-[12px] focus:outline-none focus:border-[#0284C7]"
+                className="w-full bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[6px] px-3 py-1.5 text-[12px] outline-none"
               />
             </div>
           </div>
@@ -308,37 +309,37 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
       {/* Version History Drawer Modal */}
       {showVersionDrawer && currentTemplate && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl max-w-2xl w-full border border-slate-200 p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="card-kontrol max-w-2xl w-full max-h-[90vh] overflow-y-auto p-4 space-y-3 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[rgba(0,48,80,0.12)] pb-2">
               <div>
-                <h3 className="text-base font-black text-slate-900 font-jakarta">
+                <h3 className="text-[14px] font-bold text-[#003050]">
                   Historique des Versions & Restauration
                 </h3>
-                <p className="text-[12px] text-slate-500 font-medium">
-                  Modèle: <strong className="text-slate-900">{currentTemplate.title}</strong>
+                <p className="text-[11.5px] text-[#7a9ab0]">
+                  Modèle: <strong className="text-[#003050]">{currentTemplate.title}</strong>
                 </p>
               </div>
-              <button onClick={() => setShowVersionDrawer(false)} className="p-2 text-slate-400 hover:text-slate-700">
-                <RotateCcw className="w-5 h-5" />
+              <button onClick={() => setShowVersionDrawer(false)} className="rab">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-3 max-h-96 overflow-y-auto">
+            <div className="space-y-2 max-h-80 overflow-y-auto">
               {currentTemplate.versionHistory.map((ver, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                <div key={idx} className="p-3 rounded-[6px] bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-black text-xs bg-slate-900 text-white px-2.5 py-0.5 rounded-full">
+                    <span className="badge b-premium font-mono text-[10px]">
                       {ver.version}
                     </span>
-                    <span className="text-[11px] text-slate-400">{ver.modifiedAt} par {ver.modifiedBy}</span>
+                    <span className="text-[11px] text-[#7a9ab0]">{ver.modifiedAt} par {ver.modifiedBy}</span>
                   </div>
-                  <p className="text-[12px] font-medium text-slate-700 italic">
+                  <p className="text-[12px] font-medium text-[#2d4a60] italic">
                     "{ver.comment}"
                   </p>
-                  <div className="pt-2 flex justify-end">
+                  <div className="pt-1 flex justify-end">
                     <button
                       onClick={() => handleRestoreVersion(ver)}
-                      className="px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-[#0284C7] rounded-xl text-[11px] font-bold transition-colors"
+                      className="btn btn-ol btn-sm py-1 px-2.5 text-[11px]"
                     >
                       Restaurer cette version
                     </button>
@@ -347,10 +348,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               ))}
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-slate-100">
+            <div className="flex justify-end pt-2 border-t border-[rgba(0,48,80,0.12)]">
               <button
                 onClick={() => setShowVersionDrawer(false)}
-                className="px-4 py-2 bg-slate-900 text-white rounded-2xl text-[12px] font-bold"
+                className="btn btn-dk btn-sm"
               >
                 Fermer
               </button>

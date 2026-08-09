@@ -90,7 +90,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
       {/* Table Card */}
       <div className="tbl-card">
         {/* Header */}
-        <div className="card-hd flex items-center justify-between">
+        <div className="card-hd flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 border-b border-[rgba(0,48,80,0.12)]">
           <div>
             <div className="card-title flex items-center gap-2 text-[14px] font-bold text-[#003050]">
               <Users className="w-4 h-4 text-[#50B0E0]" />
@@ -100,7 +100,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
               Comptes enregistrés sur la plateforme ({clients.length})
             </div>
           </div>
-          <div className="btns">
+          <div className="btns flex items-center gap-2 w-full sm:w-auto justify-end">
             <button className="btn btn-ol btn-sm">
               Export CSV
             </button>
@@ -116,9 +116,9 @@ export const UsersView: React.FC<UsersViewProps> = ({
 
         {/* Filter Bar */}
         <div className="p-2.5 border-b border-[rgba(0,48,80,0.12)]">
-          <div className="filter-bar flex items-center gap-2">
+          <div className="filter-bar flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <div className="fsrch flex-1 flex items-center gap-2 bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[7px] px-2.5 py-1.5">
-              <Search className="w-3.5 h-3.5 text-[#7a9ab0]" />
+              <Search className="w-3.5 h-3.5 text-[#7a9ab0] shrink-0" />
               <input
                 type="text"
                 value={search}
@@ -130,7 +130,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
             <select 
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="fsel"
+              className="w-full sm:w-auto bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[7px] px-2.5 py-1.5 text-[12.5px] text-[#0d1f2d] outline-none"
             >
               <option value="all">Tous les statuts</option>
               <option value="active">Actif</option>
@@ -139,7 +139,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
             <select 
               value={planFilter}
               onChange={(e) => setPlanFilter(e.target.value)}
-              className="fsel"
+              className="w-full sm:w-auto bg-[#F0F0F0] border border-[rgba(0,48,80,0.12)] rounded-[7px] px-2.5 py-1.5 text-[12.5px] text-[#0d1f2d] outline-none"
             >
               <option value="all">Tous les plans</option>
               <option value="Starter">Starter</option>
@@ -243,7 +243,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
       {/* Login History Modal */}
       {selectedClientForHistory && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="card-kontrol max-w-lg w-full p-4 space-y-3 shadow-2xl">
+          <div className="card-kontrol max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 space-y-3 shadow-2xl">
             <div className="flex items-center justify-between pb-2 border-b border-[rgba(0,48,80,0.12)]">
               <div>
                 <h3 className="text-[14px] font-bold text-[#003050]">
@@ -279,7 +279,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
       {/* Add Client Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <form onSubmit={handleCreateSubmit} className="card-kontrol max-w-md w-full p-4 space-y-3 shadow-2xl">
+          <form onSubmit={handleCreateSubmit} className="card-kontrol max-w-md w-full max-h-[90vh] overflow-y-auto p-4 space-y-3 shadow-2xl">
             <div className="flex items-center justify-between pb-2 border-b border-[rgba(0,48,80,0.12)]">
               <div className="flex items-center gap-2">
                 <UserPlus className="w-4 h-4 text-[#E06020]" />

@@ -188,6 +188,7 @@ export default function App() {
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col font-sans">
       {/* Top Header */}
       <Header
+        activeTab={activeTab}
         currentRole={currentRole}
         onRoleChange={setCurrentRole}
         gateways={gateways}
@@ -200,7 +201,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 gap-6">
+      <div className="flex-1 flex max-w-[1600px] w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 gap-4 sm:gap-6">
         {/* Left Sidebar Navigation */}
         <Sidebar
           activeTab={activeTab}
@@ -213,7 +214,9 @@ export default function App() {
         />
 
         {/* Dynamic View Router */}
-        <main className="flex-1 min-w-0">
+        <main className={`flex-1 min-w-0 w-full overflow-hidden sm:overflow-visible transition-all duration-300 ${
+          mobileMenuOpen ? 'opacity-40 blur-[1px] pointer-events-none lg:opacity-100 lg:blur-none lg:pointer-events-auto' : 'opacity-100'
+        }`}>
           {activeTab === 'dashboard' && (
             <DashboardView
               clients={clients}
@@ -290,8 +293,8 @@ export default function App() {
         expiringSubsCount={expiringSubsCount}
       />
 
-      {/* Bottom Bar (Status/Audit) - Vibrant Palette Theme */}
-      <footer className="h-8 bg-slate-50 border-t border-slate-200/80 px-6 sm:px-8 flex items-center justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest shrink-0 font-mono">
+      {/* Bottom Bar (Status/Audit) - Responsive Footer */}
+      <footer className="bg-slate-50 border-t border-[rgba(0,48,80,0.12)] px-4 sm:px-8 py-2 sm:py-0 h-auto sm:h-8 flex flex-col sm:flex-row items-center justify-between text-[10px] font-black text-slate-500 uppercase tracking-widest shrink-0 font-mono gap-1 text-center sm:text-left">
         <div>Dernier audit : {new Date().toLocaleDateString('fr-FR')} — Chiffrement AES-256 Actif</div>
         <div className="flex items-center gap-2">
           <span>Serveur : Production-01</span>
