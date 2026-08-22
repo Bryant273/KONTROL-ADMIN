@@ -7,13 +7,12 @@ export type UserRole =
   | 'content_manager' 
   | 'client_admin';
 
-export type PlanType = 'Starter' | 'Pro' | 'Enterprise' | 'Custom';
+export type PlanType = 'STANDARD';
 
-export type PaymentMethod = 'orange_money' | 'mtn_money' | 'stripe' | 'paypal';
+export type PaymentMethod = 'orange_money' | 'mtn_money' | 'wave' | 'card' | 'genius_pay';
 
 export interface LoginSession {
   date: string;
-  ip: string;
   device: string;
   location: string;
   status: 'success' | 'failed';
@@ -25,16 +24,32 @@ export interface UserClient {
   email: string;
   company: string;
   phone: string;
+  country: string;
+  address: string;
   avatar?: string;
   status: UserStatus;
   role: UserRole;
   plan: PlanType;
   paymentMethod: PaymentMethod;
-  mrr: number;
-  lastLogin: string;
-  ip: string;
+  mrr: number; // 15 000 FCFA
+  lastLogin?: string;
   createdAt: string;
-  loginHistory: LoginSession[];
+  loginHistory?: LoginSession[];
+  geniusPayCustomerId?: string;
+}
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: 'active' | 'suspended';
+  lastLogin: string;
+  createdAt: string;
+  avatar?: string;
+  phone?: string;
+  department: 'Direction' | 'Finance' | 'Support' | 'Produit';
+  permissions: string[];
 }
 
 export interface Subscription {
@@ -44,7 +59,7 @@ export interface Subscription {
   userEmail: string;
   company: string;
   planName: PlanType;
-  price: number;
+  price: number; // 15 000 FCFA / mois
   billingCycle: 'mensuel' | 'annuel';
   status: 'actif' | 'expire_bientot' | 'suspendu' | 'essai';
   startDate: string;
@@ -52,32 +67,39 @@ export interface Subscription {
   autoRenew: boolean;
   paymentChannel: PaymentMethod;
   daysRemaining: number;
+  country?: string;
+  address?: string;
+  geniusPaySubId?: string;
 }
 
 export interface PlanDefinition {
   id: string;
   name: PlanType;
-  priceMonthly: number;
-  priceYearly: number;
+  priceMonthly: number; // 15 000 FCFA
+  priceYearly: number;  // 150 000 FCFA
   description: string;
   features: string[];
   subscriberCount: number;
   isPopular?: boolean;
 }
 
+export type PaymentNetwork = 'Orange Money' | 'MTN Mobile Money' | 'Wave' | 'Carte Bancaire';
+
 export interface PaymentTransaction {
   id: string;
-  transactionId: string;
+  transactionId: string; // N° Bordereau GeniuSPay (ex: GP_TX_98412)
+  purpose: string; // Exclusif: "Abonnement KONTROL Standard"
+  planName: PlanType; // STANDARD
   clientName: string;
   company: string;
-  amount: number;
-  currency: string;
-  gateway: 'Orange Money' | 'MTN Mobile Money' | 'Stripe' | 'PayPal';
+  amount: number; // 15 000 FCFA (mensuel) ou 150 000 FCFA (annuel)
+  currency: string; // XOF (FCFA)
+  aggregator: 'GeniuSPay'; // Moyen de Paiement / Agrégateur
+  paymentNetwork: PaymentNetwork; // Réseau sous-jacent (détail du bordereau)
   status: 'success' | 'pending' | 'failed' | 'refunded';
   timestamp: string;
-  gatewayRef: string;
-  hashSignature: string;
-  payload: Record<string, any>;
+  slipReference: string; // Référence bordereau GeniuSPay
+  payload?: Record<string, any>;
 }
 
 export interface TemplateVersion {
@@ -88,10 +110,13 @@ export interface TemplateVersion {
   comment: string;
 }
 
+export type TemplateCategory = 'factures' | 'bons' | 'fiches' | 'contrats' | 'recus';
+
 export interface TemplateItem {
   id: string;
   title: string;
-  category: 'factures' | 'contrats' | 'emails';
+  category: TemplateCategory;
+  docTypeLabel: string;
   currentVersion: string;
   lastModified: string;
   author: string;
@@ -116,7 +141,7 @@ export interface SupportTicket {
   clientName: string;
   company: string;
   subject: string;
-  category: 'facturation' | 'technique' | 'compte' | 'intégration';
+  category: 'facturation' | 'technique' | 'compte' | 'intégration' | 'genius_pay';
   priority: 'urgent' | 'high' | 'normal' | 'low';
   status: 'open' | 'in_progress' | 'waiting' | 'resolved';
   assignedTo: string;
@@ -132,7 +157,7 @@ export interface AuditLog {
   actorRole: string;
   action: string;
   target: string;
-  ip: string;
+  ip?: string;
   severity: 'info' | 'warning' | 'alert';
   hashSignature: string;
 }
@@ -141,7 +166,6 @@ export interface ActiveSession {
   id: string;
   userEmail: string;
   userName: string;
-  ip: string;
   device: string;
   location: string;
   loginTime: string;
@@ -150,10 +174,12 @@ export interface ActiveSession {
 }
 
 export interface GatewayStatus {
-  name: 'Orange Money' | 'MTN Mobile Money' | 'Stripe' | 'PayPal';
+  name: string;
+  network: PaymentNetwork;
   key: PaymentMethod;
   status: 'operational' | 'degraded' | 'maintenance';
   mode: 'live' | 'sandbox';
   latencyMs: number;
   volume24h: number;
+  provider: string; // Ex: "Moyen de Paiement : GeniuSPay", "Réseau Orange Money via GeniuSPay"
 }

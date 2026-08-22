@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { 
   LayoutDashboard, 
@@ -8,9 +8,14 @@ import {
   FileCode, 
   Headphones, 
   ShieldAlert,
+  Database,
   ChevronRight,
-  X
+  ChevronDown,
+  X,
+  UserCheck,
+  Building2
 } from 'lucide-react';
+import { UserRole } from '../types';
 
 export type NavTab = 
   | 'dashboard' 
@@ -19,7 +24,9 @@ export type NavTab =
   | 'payments' 
   | 'templates' 
   | 'support' 
-  | 'audit';
+  | 'admin_team'
+  | 'audit'
+  | 'data_explorer';
 
 interface SidebarProps {
   activeTab: NavTab;
@@ -27,8 +34,11 @@ interface SidebarProps {
   pendingTicketsCount: number;
   expiringSubscriptionsCount: number;
   totalUsersCount: number;
+  totalAdminUsersCount: number;
   mobileMenuOpen: boolean;
   onCloseMobileMenu: () => void;
+  currentRole: UserRole;
+  userName: string;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -37,169 +47,279 @@ export const Sidebar: React.FC<SidebarProps> = ({
   pendingTicketsCount,
   expiringSubscriptionsCount,
   totalUsersCount,
+  totalAdminUsersCount,
   mobileMenuOpen,
-  onCloseMobileMenu
+  onCloseMobileMenu,
+  currentRole,
+  userName
 }) => {
+  // Collapsible section states
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    pilotage: true,
+    gestion: true,
+    templates: true,
+    support: true,
+    donnees: true
+  });
+
+  const toggleSection = (sectionKey: string) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [sectionKey]: !prev[sectionKey]
+    }));
+  };
+
   const handleNavClick = (tab: NavTab) => {
     onSelectTab(tab);
     onCloseMobileMenu();
   };
 
+  const getRoleLabel = (role: UserRole) => {
+    switch (role) {
+      case 'super_admin': return 'Super Administrateur';
+      case 'financial_admin': return 'Admin Financier';
+      case 'support_agent': return 'Agent Support';
+      case 'content_manager': return 'Gestionnaire Modèles';
+      default: return 'Administrateur';
+    }
+  };
+
   return (
     <>
-      {/* Mobile backdrop with smooth opacity transition */}
+      {/* Mobile backdrop */}
       <div 
         onClick={onCloseMobileMenu}
         aria-hidden="true"
-        className={`fixed inset-0 bg-[#001a30]/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ease-in-out ${
+        className={`fixed inset-0 bg-[#001424]/70 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-200 ease-in-out ${
           mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
-      {/* Sidebar container */}
+      {/* Solid Left Sidebar Container */}
       <aside className={`
-        fixed lg:sticky top-0 left-0 z-50 lg:z-30
-        w-[250px] sm:w-[230px] bg-[#003050] text-white/80
-        h-screen flex flex-col justify-between shrink-0 overflow-hidden
-        transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none
+        fixed inset-y-0 left-0 z-50 lg:static
+        w-60 bg-[#002138] text-slate-300
+        h-screen flex flex-col justify-between shrink-0 select-none
+        border-r border-[#001726] shadow-xl lg:shadow-none
+        transition-transform duration-200 ease-in-out
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Header with SVG Logo & Mobile Close Button */}
-        <div className="h-[52px] flex items-center justify-between px-4 border-b border-white/10 shrink-0">
-          <div className="flex items-center gap-2">
+        {/* Header with SVG Logo & App Title */}
+        <div className="h-14 flex items-center justify-between px-4 border-b border-white/10 shrink-0 bg-[#001b2e]">
+          <div className="flex items-center gap-2.5">
             <Logo size={28} />
-            <span className="font-extrabold text-[15px] tracking-tight text-white font-sans">KONTROL</span>
+            <div className="flex flex-col">
+              <span className="font-black text-[15px] tracking-tight text-white font-sans leading-tight">KONTROL</span>
+              <span className="text-[9px] font-mono text-[#50B0E0] uppercase tracking-wider font-semibold">ERP Cloud</span>
+            </div>
           </div>
 
           <button
             onClick={onCloseMobileMenu}
-            className="lg:hidden p-1.5 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="lg:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
             title="Fermer le menu"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Navigation list */}
-        <div className="flex-1 overflow-y-auto px-2 py-1.5 flex flex-col gap-0.5 select-none">
-          {/* Section: Pilotage */}
-          <div className="text-[9.5px] font-bold tracking-wider uppercase px-2 pt-1 pb-0.5 text-white/40 font-mono">
-            Pilotage
+        {/* Navigation list with Intelligent Sections */}
+        <div className="flex-1 overflow-y-auto px-2.5 py-3 space-y-3 custom-scrollbar">
+          
+          {/* 1. SECTION: PILOTAGE */}
+          <div className="space-y-1">
+            <div className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 font-mono flex items-center justify-between">
+              <span>Pilotage</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <button
+                onClick={() => handleNavClick('dashboard')}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'dashboard' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <LayoutDashboard className={`w-4 h-4 shrink-0 ${activeTab === 'dashboard' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                <span>Tableau de bord</span>
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => handleNavClick('dashboard')}
-            className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'dashboard' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <LayoutDashboard className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-            <span>Dashboard</span>
-          </button>
 
-          {/* Section: Gestion */}
-          <div className="text-[9.5px] font-bold tracking-wider uppercase px-2 pt-2 pb-0.5 text-white/40 font-mono">
-            Gestion
+          {/* 2. SECTION: GESTION & CLIENTS */}
+          <div className="space-y-1 pt-1.5 border-t border-white/5">
+            <div className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 font-mono">
+              <span>Gestion & Finances</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <button
+                onClick={() => handleNavClick('users')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'users' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Building2 className={`w-4 h-4 shrink-0 ${activeTab === 'users' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                  <span>Entreprises / Clients</span>
+                </div>
+                {totalUsersCount > 0 && (
+                  <span className="bg-white/10 text-white/90 text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                    {totalUsersCount}
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => handleNavClick('subscriptions')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'subscriptions' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <CreditCard className={`w-4 h-4 shrink-0 ${activeTab === 'subscriptions' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                  <span>Abonnements Standard</span>
+                </div>
+                {expiringSubscriptionsCount > 0 && (
+                  <span className="bg-[#E06020] text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                    {expiringSubscriptionsCount}
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => handleNavClick('payments')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'payments' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Banknote className={`w-4 h-4 shrink-0 ${activeTab === 'payments' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                  <span>Bordereaux GeniuSPay</span>
+                </div>
+                <span className="bg-[#3B96D2]/20 text-[#50B0E0] text-[9.5px] font-bold px-1.5 py-0.2 rounded">
+                  Paiements
+                </span>
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => handleNavClick('users')}
-            className={`flex items-center justify-between px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'users' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <Users className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-              <span>Utilisateurs</span>
+
+          {/* 3. SECTION: MODÈLES & DOCUMENTS */}
+          <div className="space-y-1 pt-1.5 border-t border-white/5">
+            <div className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 font-mono">
+              <span>Documents</span>
             </div>
-            {totalUsersCount > 0 && (
-              <span className="bg-white/10 text-white/80 text-[9.5px] font-bold px-1.5 py-0.2 rounded-full">
-                {totalUsersCount}
-              </span>
-            )}
-          </button>
 
-          <button
-            onClick={() => handleNavClick('subscriptions')}
-            className={`flex items-center justify-between px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'subscriptions' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <CreditCard className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-              <span>Abonnements</span>
+            <div className="space-y-0.5">
+              <button
+                onClick={() => handleNavClick('templates')}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'templates' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <FileCode className={`w-4 h-4 shrink-0 ${activeTab === 'templates' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                <span>Modèles de Documents</span>
+              </button>
             </div>
-            {expiringSubscriptionsCount > 0 && (
-              <span className="bg-[#E06020] text-white text-[9.5px] font-bold px-1.5 py-0.2 rounded-full">
-                {expiringSubscriptionsCount} exp.
-              </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => handleNavClick('payments')}
-            className={`flex items-center justify-between px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'payments' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <Banknote className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-              <span>Paiements</span>
-            </div>
-            <span className="bg-emerald-500/20 text-emerald-300 text-[9.5px] font-bold px-1.5 py-0.2 rounded-full">
-              OM/MTN
-            </span>
-          </button>
-
-          <button
-            onClick={() => handleNavClick('templates')}
-            className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'templates' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <FileCode className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-            <span>Templates</span>
-          </button>
-
-          {/* Section: Support */}
-          <div className="text-[9.5px] font-bold tracking-wider uppercase px-2 pt-2 pb-0.5 text-white/40 font-mono">
-            Support
           </div>
-          <button
-            onClick={() => handleNavClick('support')}
-            className={`flex items-center justify-between px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'support' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <Headphones className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-              <span>Tickets Support</span>
-            </div>
-            {pendingTicketsCount > 0 && (
-              <span className="bg-[#E06020] text-white text-[9.5px] font-bold px-1.5 py-0.2 rounded-full">
-                {pendingTicketsCount}
-              </span>
-            )}
-          </button>
 
-          <button
-            onClick={() => handleNavClick('audit')}
-            className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-[6px] text-[12.5px] transition-all cursor-pointer ${
-              activeTab === 'audit' ? 'bg-[#50B0E0]/20 text-[#50B0E0] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <ShieldAlert className="w-4 h-4 shrink-0 text-[#50B0E0]" />
-            <span>Audit Trail</span>
-          </button>
+          {/* 4. SECTION: SUPPORT & ÉQUIPE */}
+          <div className="space-y-1 pt-1.5 border-t border-white/5">
+            <div className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 font-mono">
+              <span>Support & Administration</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <button
+                onClick={() => handleNavClick('support')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'support' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Headphones className={`w-4 h-4 shrink-0 ${activeTab === 'support' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                  <span>Support Client</span>
+                </div>
+                {pendingTicketsCount > 0 && (
+                  <span className="bg-[#E06020] text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                    {pendingTicketsCount}
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => handleNavClick('admin_team')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'admin_team' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <UserCheck className={`w-4 h-4 shrink-0 ${activeTab === 'admin_team' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                  <span>Utilisateurs Admin</span>
+                </div>
+                <span className="bg-white/10 text-white/90 text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                  {totalAdminUsersCount}
+                </span>
+              </button>
+
+              <button
+                onClick={() => handleNavClick('audit')}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'audit' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <ShieldAlert className={`w-4 h-4 shrink-0 ${activeTab === 'audit' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                <span>Journal d'Audit</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 5. SECTION: DONNÉES & BASE */}
+          <div className="space-y-1 pt-1.5 border-t border-white/5">
+            <div className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase text-slate-400 font-mono">
+              <span>Système</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <button
+                onClick={() => handleNavClick('data_explorer')}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[12.5px] font-medium transition-all ${
+                  activeTab === 'data_explorer' 
+                    ? 'bg-[#3B96D2]/20 text-[#50B0E0] font-bold shadow-xs' 
+                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                }`}
+              >
+                <Database className={`w-4 h-4 shrink-0 ${activeTab === 'data_explorer' ? 'text-[#50B0E0]' : 'text-slate-400'}`} />
+                <span>Explorateur Données</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* User Card Foot */}
-        <div className="p-2 border-t border-white/10 shrink-0 bg-[#002540]">
-          <div className="flex items-center gap-2.5 p-1.5 rounded-[6px] hover:bg-white/5 cursor-pointer transition-colors">
-            <div className="w-[28px] h-[28px] rounded-full bg-gradient-to-br from-[#50B0E0] to-[#E06020] text-white font-bold text-[10px] flex items-center justify-center shrink-0 shadow-xs">
-              SA
+        {/* Clean Docked Footer with Admin Identity */}
+        <div className="p-3 border-t border-white/10 shrink-0 bg-[#001b2e]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#50B0E0] to-[#E06020] text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-xs">
+              {userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-[12px] font-bold text-white truncate leading-tight">Super Admin</div>
-              <div className="text-[10px] text-white/50 truncate">admin@kontrol.ci</div>
+              <div className="text-[12px] font-bold text-white truncate leading-tight">{userName}</div>
+              <div className="text-[10.5px] text-[#50B0E0] truncate font-medium">{getRoleLabel(currentRole)}</div>
             </div>
           </div>
         </div>
@@ -207,4 +327,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
-

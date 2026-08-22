@@ -6,733 +6,769 @@ import {
   TemplateItem, 
   SupportTicket, 
   AuditLog, 
-  ActiveSession,
-  GatewayStatus 
+  ActiveSession, 
+  GatewayStatus,
+  AdminUser
 } from './types';
 
+// ======================== CLIENTS & ENTREPRISES ERP ========================
 export const INITIAL_CLIENTS: UserClient[] = [
   {
     id: 'usr_01',
     name: 'Amadou Diallo',
-    email: 'a.diallo@africom-group.com',
-    company: 'Africom Logistics & Distribution',
-    phone: '+221 77 452 19 80',
+    email: 'amadou.diallo@agro-dakar.sn',
+    company: 'Agro Dakar SA',
+    phone: '+221 77 452 18 90',
+    country: 'Sénégal',
+    address: 'Avenue Lamine Guèye, Dakar',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
     status: 'active',
     role: 'client_admin',
-    plan: 'Enterprise',
+    plan: 'STANDARD',
     paymentMethod: 'orange_money',
-    mrr: 450000,
-    lastLogin: 'Aujourd\'hui, 14:32',
-    ip: '197.224.12.89',
-    createdAt: '2025-01-15',
-    loginHistory: [
-      { date: '2026-08-08 14:32:10', ip: '197.224.12.89', device: 'Chrome 127 / macOS', location: 'Dakar, SN', status: 'success' },
-      { date: '2026-08-07 09:15:44', ip: '197.224.12.89', device: 'Chrome 127 / macOS', location: 'Dakar, SN', status: 'success' },
-      { date: '2026-08-05 18:20:01', ip: '197.224.15.102', device: 'Safari / iPhone 15', location: 'Dakar, SN', status: 'success' },
-      { date: '2026-08-01 11:04:12', ip: '197.224.12.89', device: 'Chrome 127 / macOS', location: 'Dakar, SN', status: 'failed' },
-    ]
+    mrr: 15000,
+    lastLogin: 'Aujourd\'hui 10:24',
+    createdAt: '2025-11-12'
   },
   {
     id: 'usr_02',
-    name: 'Aïcha Kone',
-    email: 'kone.aicha@ivoire-tech.ci',
-    company: 'Ivoire Tech Solutions',
-    phone: '+225 07 88 12 34 56',
+    name: 'Koffi Mensah',
+    email: 'koffi.mensah@sahel-logistics.ci',
+    company: 'Sahel Logistics CI',
+    phone: '+225 07 88 99 10',
+    country: 'Côte d\'Ivoire',
+    address: 'Zone Industrielle de Yopougon, Abidjan',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
     status: 'active',
     role: 'client_admin',
-    plan: 'Pro',
+    plan: 'STANDARD',
     paymentMethod: 'mtn_money',
-    mrr: 180000,
-    lastLogin: 'Hier, 18:05',
-    ip: '160.155.88.12',
-    createdAt: '2025-03-22',
-    loginHistory: [
-      { date: '2026-08-07 18:05:22', ip: '160.155.88.12', device: 'Firefox 128 / Windows 11', location: 'Abidjan, CI', status: 'success' },
-      { date: '2026-08-04 10:12:00', ip: '160.155.88.12', device: 'Firefox 128 / Windows 11', location: 'Abidjan, CI', status: 'success' }
-    ]
+    mrr: 15000,
+    lastLogin: 'Hier 18:45',
+    createdAt: '2026-01-05'
   },
   {
     id: 'usr_03',
-    name: 'Jean-Marc Bamba',
-    email: 'jm.bamba@sahel-pharma.com',
-    company: 'Sahel Pharma Distribution',
-    phone: '+223 66 90 11 22',
+    name: 'Fatou Ndiaye',
+    email: 'contact@senegal-btp.com',
+    company: 'Sénégal BTP & Travaux',
+    phone: '+221 78 300 44 55',
+    country: 'Sénégal',
+    address: 'Route des Almadies, Dakar',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80',
     status: 'active',
     role: 'client_admin',
-    plan: 'Starter',
-    paymentMethod: 'orange_money',
-    mrr: 75000,
-    lastLogin: '06 Aoû 2026, 11:14',
-    ip: '41.73.110.45',
-    createdAt: '2025-06-10',
-    loginHistory: [
-      { date: '2026-08-06 11:14:33', ip: '41.73.110.45', device: 'Edge / Windows 10', location: 'Bamako, ML', status: 'success' }
-    ]
+    plan: 'STANDARD',
+    paymentMethod: 'wave',
+    mrr: 15000,
+    lastLogin: 'Il y a 3 jours',
+    createdAt: '2025-08-20'
   },
   {
     id: 'usr_04',
-    name: 'Sarah Jenkins',
-    email: 'sarah.j@global-trade.io',
-    company: 'Global Trade Partners Ltd',
-    phone: '+44 20 7946 0912',
-    status: 'suspended',
-    role: 'client_admin',
-    plan: 'Enterprise',
-    paymentMethod: 'stripe',
-    mrr: 650000,
-    lastLogin: '28 Jul 2026, 16:40',
-    ip: '82.165.197.1',
-    createdAt: '2024-11-05',
-    loginHistory: [
-      { date: '2026-07-28 16:40:12', ip: '82.165.197.1', device: 'Chrome / macOS', location: 'London, UK', status: 'success' },
-      { date: '2026-07-28 16:38:00', ip: '185.220.101.4', device: 'Unknown Script', location: 'Frankfurt, DE', status: 'failed' }
-    ]
-  },
-  {
-    id: 'usr_05',
-    name: 'Koffi Mensah',
-    email: 'koffi@togo-agri.tg',
-    company: 'Togo Agri Export',
-    phone: '+228 90 12 34 56',
-    status: 'pending',
-    role: 'client_admin',
-    plan: 'Pro',
-    paymentMethod: 'mtn_money',
-    mrr: 180000,
-    lastLogin: 'En attente de 1ère connexion',
-    ip: '—',
-    createdAt: '2026-08-08',
-    loginHistory: []
-  },
-  {
-    id: 'usr_06',
-    name: 'Fatou Ndiaye',
-    email: 'f.ndiaye@dakar-retail.sn',
-    company: 'Dakar Retail Group',
-    phone: '+221 78 120 44 99',
+    name: 'Mamadou Touré',
+    email: 'direction@afric-distribution.ml',
+    company: 'Afric Distribution Bamako',
+    phone: '+223 66 12 34 56',
+    country: 'Mali',
+    address: 'Quartier du Fleuve, Bamako',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
     status: 'active',
     role: 'client_admin',
-    plan: 'Pro',
+    plan: 'STANDARD',
     paymentMethod: 'orange_money',
-    mrr: 180000,
-    lastLogin: 'Aujourd\'hui, 16:10',
-    ip: '197.224.20.15',
-    createdAt: '2025-09-01',
-    loginHistory: [
-      { date: '2026-08-08 16:10:05', ip: '197.224.20.15', device: 'Chrome / Android', location: 'Dakar, SN', status: 'success' }
-    ]
+    mrr: 15000,
+    lastLogin: 'Hier 09:10',
+    createdAt: '2026-02-14'
   }
 ];
 
+// ======================== ABONNEMENTS STANDARD ========================
 export const INITIAL_PLANS: PlanDefinition[] = [
   {
-    id: 'plan_starter',
-    name: 'Starter',
-    priceMonthly: 75000,
-    priceYearly: 750000,
-    description: 'Idéal pour TPE et PME naissantes nécessitant une comptabilité et gestion de stock de base.',
+    id: 'plan_standard',
+    name: 'STANDARD',
+    priceMonthly: 15000,
+    priceYearly: 150000,
+    description: 'Abonnement complet KONTROL ERP avec accès illimité aux modules commerciaux, factures, bons et règlements via l\'agrégateur GeniuSPay.',
     features: [
-      'Jusqu\'à 3 utilisateurs',
-      'Facturation & Devis illimités',
-      'Paiements Mobile Money intégrés',
-      'Export PDF & Excel basique',
-      'Support email 48h'
+      'ERP Gestion Commerciale & Facturation illimitée',
+      'Génération de Bons de commande, Bons de livraison, Fiches & Contrats',
+      'Moyen de Paiement sécurisé via GeniuSPay (Orange Money, MTN MoMo, Wave)',
+      'Gestion multi-utilisateurs & rôles d\'entreprise',
+      'Exports comptables normalisés OHADA',
+      'Sauvegardes et synchronisation temps réel'
     ],
-    subscriberCount: 42
-  },
-  {
-    id: 'plan_pro',
-    name: 'Pro',
-    priceMonthly: 180000,
-    priceYearly: 1800000,
-    description: 'Pour les entreprises en pleine croissance requérant automatisation, RH et multi-boutiques.',
-    features: [
-      'Jusqu\'à 15 utilisateurs',
-      'Gestion multi-magasins & stocks avancés',
-      'Module Paie & Ressources Humaines',
-      'Passerelles Stripe / PayPal / OM / MTN',
-      'Rapprochement bancaire auto',
-      'Support prioritaire SLA 4h'
-    ],
-    subscriberCount: 118,
+    subscriberCount: 4,
     isPopular: true
-  },
-  {
-    id: 'plan_enterprise',
-    name: 'Enterprise',
-    priceMonthly: 450000,
-    priceYearly: 4500000,
-    description: 'Pour les grands groupes exigeant une sur-mesure, API dédiées et audit trail complet.',
-    features: [
-      'Utilisateurs illimités',
-      'Multi-filiales & Consolidation',
-      'Intégration API & Webhooks personnalisés',
-      'Chiffrement AES-256 & Audit Logs',
-      'Templates sur-mesure avec versioning',
-      'Account Manager dédié & SLA 1h'
-    ],
-    subscriberCount: 35
-  },
-  {
-    id: 'plan_custom',
-    name: 'Custom',
-    priceMonthly: 850000,
-    priceYearly: 8500000,
-    description: 'Infrastructure dédiée Cloud privé avec gouvernance sur-mesure et support 24/7.',
-    features: [
-      'Serveurs Cloud dédiés MinIO/S3',
-      'Garantie de disponibilité SLA 99.99%',
-      'Connecteurs ERP propriétaires',
-      'Audits de sécurité trimestriels',
-      'Support 24/7 Téléphone & WhatsApp'
-    ],
-    subscriberCount: 8
   }
 ];
 
 export const INITIAL_SUBSCRIPTIONS: Subscription[] = [
   {
-    id: 'sub_101',
+    id: 'sub_01',
     userId: 'usr_01',
     userName: 'Amadou Diallo',
-    userEmail: 'a.diallo@africom-group.com',
-    company: 'Africom Logistics & Distribution',
-    planName: 'Enterprise',
-    price: 450000,
+    userEmail: 'amadou.diallo@agro-dakar.sn',
+    company: 'Agro Dakar SA',
+    planName: 'STANDARD',
+    price: 15000,
     billingCycle: 'mensuel',
     status: 'actif',
-    startDate: '2025-01-15',
-    nextBillingDate: '2026-08-15',
+    startDate: '2025-11-12',
+    nextBillingDate: '2026-09-12',
     autoRenew: true,
     paymentChannel: 'orange_money',
-    daysRemaining: 7
+    daysRemaining: 21,
+    country: 'Sénégal',
+    address: 'Avenue Lamine Guèye, Dakar',
+    geniusPaySubId: 'GP_SUB_01'
   },
   {
-    id: 'sub_102',
+    id: 'sub_02',
     userId: 'usr_02',
-    userName: 'Aïcha Kone',
-    userEmail: 'kone.aicha@ivoire-tech.ci',
-    company: 'Ivoire Tech Solutions',
-    planName: 'Pro',
-    price: 180000,
+    userName: 'Koffi Mensah',
+    userEmail: 'koffi.mensah@sahel-logistics.ci',
+    company: 'Sahel Logistics CI',
+    planName: 'STANDARD',
+    price: 15000,
     billingCycle: 'mensuel',
-    status: 'expire_bientot',
-    startDate: '2025-03-22',
-    nextBillingDate: '2026-08-10',
+    status: 'actif',
+    startDate: '2026-01-05',
+    nextBillingDate: '2026-09-05',
     autoRenew: true,
     paymentChannel: 'mtn_money',
-    daysRemaining: 2
+    daysRemaining: 14,
+    country: 'Côte d\'Ivoire',
+    address: 'Zone Industrielle de Yopougon, Abidjan',
+    geniusPaySubId: 'GP_SUB_02'
   },
   {
-    id: 'sub_103',
+    id: 'sub_03',
     userId: 'usr_03',
-    userName: 'Jean-Marc Bamba',
-    userEmail: 'jm.bamba@sahel-pharma.com',
-    company: 'Sahel Pharma Distribution',
-    planName: 'Starter',
-    price: 75000,
-    billingCycle: 'mensuel',
-    status: 'actif',
-    startDate: '2025-06-10',
-    nextBillingDate: '2026-09-10',
-    autoRenew: true,
-    paymentChannel: 'orange_money',
-    daysRemaining: 33
-  },
-  {
-    id: 'sub_104',
-    userId: 'usr_04',
-    userName: 'Sarah Jenkins',
-    userEmail: 'sarah.j@global-trade.io',
-    company: 'Global Trade Partners Ltd',
-    planName: 'Enterprise',
-    price: 650000,
-    billingCycle: 'mensuel',
-    status: 'suspendu',
-    startDate: '2024-11-05',
-    nextBillingDate: '2026-07-05',
-    autoRenew: false,
-    paymentChannel: 'stripe',
-    daysRemaining: 0
-  },
-  {
-    id: 'sub_105',
-    userId: 'usr_06',
     userName: 'Fatou Ndiaye',
-    userEmail: 'f.ndiaye@dakar-retail.sn',
-    company: 'Dakar Retail Group',
-    planName: 'Pro',
-    price: 180000,
-    billingCycle: 'annuel',
+    userEmail: 'contact@senegal-btp.com',
+    company: 'Sénégal BTP & Travaux',
+    planName: 'STANDARD',
+    price: 15000,
+    billingCycle: 'mensuel',
     status: 'actif',
-    startDate: '2025-09-01',
-    nextBillingDate: '2026-09-01',
+    startDate: '2025-08-20',
+    nextBillingDate: '2026-08-28',
+    autoRenew: true,
+    paymentChannel: 'wave',
+    daysRemaining: 6,
+    country: 'Sénégal',
+    address: 'Route des Almadies, Dakar',
+    geniusPaySubId: 'GP_SUB_03'
+  },
+  {
+    id: 'sub_04',
+    userId: 'usr_04',
+    userName: 'Mamadou Touré',
+    userEmail: 'direction@afric-distribution.ml',
+    company: 'Afric Distribution Bamako',
+    planName: 'STANDARD',
+    price: 15000,
+    billingCycle: 'mensuel',
+    status: 'actif',
+    startDate: '2026-02-14',
+    nextBillingDate: '2026-09-14',
     autoRenew: true,
     paymentChannel: 'orange_money',
-    daysRemaining: 24
+    daysRemaining: 23,
+    country: 'Mali',
+    address: 'Quartier du Fleuve, Bamako',
+    geniusPaySubId: 'GP_SUB_04'
   }
 ];
 
+// ======================== BORDEREAUX DE PAIEMENT GENIUSPAY (EXCLUSIVEMENT ABONNEMENTS) ========================
 export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
   {
-    id: 'tx_9901',
-    transactionId: 'OM-SN-20260808-8849102',
+    id: 'tx_01',
+    transactionId: 'GP_TX_98412',
+    purpose: 'Abonnement KONTROL Standard',
+    planName: 'STANDARD',
     clientName: 'Amadou Diallo',
-    company: 'Africom Logistics & Distribution',
-    amount: 450000,
+    company: 'Agro Dakar SA',
+    amount: 15000,
     currency: 'XOF',
-    gateway: 'Orange Money',
+    aggregator: 'GeniuSPay',
+    paymentNetwork: 'Orange Money',
     status: 'success',
-    timestamp: '2026-08-08 14:15:02',
-    gatewayRef: 'OM_REF_88192039102',
-    hashSignature: '0x7f8a91b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0',
-    payload: {
-      msisdn: '221774521980',
-      status_code: '200_SUCCESS',
-      fee_xof: 4500,
-      settlement_date: '2026-08-08',
-      ip_origin: '197.224.12.89'
-    }
+    timestamp: '2026-08-12 09:15:22',
+    slipReference: 'GENIUSPAY_SLIP_OM_98412'
   },
   {
-    id: 'tx_9902',
-    transactionId: 'MTN-CI-20260808-1120492',
-    clientName: 'Aïcha Kone',
-    company: 'Ivoire Tech Solutions',
-    amount: 180000,
+    id: 'tx_02',
+    transactionId: 'GP_TX_98413',
+    purpose: 'Abonnement KONTROL Standard',
+    planName: 'STANDARD',
+    clientName: 'Koffi Mensah',
+    company: 'Sahel Logistics CI',
+    amount: 15000,
     currency: 'XOF',
-    gateway: 'MTN Mobile Money',
-    status: 'pending',
-    timestamp: '2026-08-08 13:40:11',
-    gatewayRef: 'MTN_REF_002931023',
-    hashSignature: '0xa1b2c3d4e5f60718293a4b5c6d7e8f901a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d',
-    payload: {
-      msisdn: '2250788123456',
-      status_code: 'PENDING_USER_PIN',
-      retry_count: 1,
-      ip_origin: '160.155.88.12'
-    }
-  },
-  {
-    id: 'tx_9903',
-    transactionId: 'ST-INT-20260807-550192',
-    clientName: 'Sarah Jenkins',
-    company: 'Global Trade Partners Ltd',
-    amount: 1100,
-    currency: 'EUR',
-    gateway: 'Stripe',
-    status: 'failed',
-    timestamp: '2026-08-07 09:22:18',
-    gatewayRef: 'ch_3Pz9K2E2eZvKYlo21G5qW7',
-    hashSignature: '0x9876543210fedcba0123456789abcdef0123456789abcdef0123456789abcdef',
-    payload: {
-      card_last4: '4242',
-      failure_reason: 'insufficient_funds',
-      risk_level: 'normal',
-      stripe_code: 'card_declined'
-    }
-  },
-  {
-    id: 'tx_9904',
-    transactionId: 'PP-GLOBAL-20260806-0012',
-    clientName: 'Dakar Retail Group',
-    company: 'Dakar Retail Group',
-    amount: 180000,
-    currency: 'XOF',
-    gateway: 'PayPal',
+    aggregator: 'GeniuSPay',
+    paymentNetwork: 'MTN Mobile Money',
     status: 'success',
-    timestamp: '2026-08-06 17:05:40',
-    gatewayRef: 'PAYID-M2918203912',
-    hashSignature: '0x1a2b3c4d5e6f7890123456789abcdef0123456789abcdef0123456789abcdef0',
-    payload: {
-      payer_id: 'PP_NDIAYE_9912',
-      fee_amount: 3200,
-      verified_account: true
-    }
+    timestamp: '2026-08-05 14:20:10',
+    slipReference: 'GENIUSPAY_SLIP_MTN_98413'
   },
   {
-    id: 'tx_9905',
-    transactionId: 'OM-ML-20260805-4412091',
-    clientName: 'Jean-Marc Bamba',
-    company: 'Sahel Pharma Distribution',
-    amount: 75000,
+    id: 'tx_03',
+    transactionId: 'GP_TX_98414',
+    purpose: 'Abonnement KONTROL Standard',
+    planName: 'STANDARD',
+    clientName: 'Fatou Ndiaye',
+    company: 'Sénégal BTP & Travaux',
+    amount: 15000,
     currency: 'XOF',
-    gateway: 'Orange Money',
+    aggregator: 'GeniuSPay',
+    paymentNetwork: 'Wave',
     status: 'success',
-    timestamp: '2026-08-05 10:11:55',
-    gatewayRef: 'OM_REF_551920192',
-    hashSignature: '0x3f2e1d0c9b8a7f6e5d4c3b2a10f9e8d7c6b5a493827100112233445566778899',
-    payload: {
-      msisdn: '22366901122',
-      status_code: '200_SUCCESS'
-    }
+    timestamp: '2026-07-28 11:00:00',
+    slipReference: 'GENIUSPAY_SLIP_WAVE_98414'
+  },
+  {
+    id: 'tx_04',
+    transactionId: 'GP_TX_98415',
+    purpose: 'Abonnement KONTROL Standard',
+    planName: 'STANDARD',
+    clientName: 'Mamadou Touré',
+    company: 'Afric Distribution Bamako',
+    amount: 15000,
+    currency: 'XOF',
+    aggregator: 'GeniuSPay',
+    paymentNetwork: 'Orange Money',
+    status: 'success',
+    timestamp: '2026-08-14 16:45:00',
+    slipReference: 'GENIUSPAY_SLIP_OM_98415'
   }
 ];
 
+// ======================== MODÈLES & DOCUMENTS D'ENTREPRISE ========================
 export const INITIAL_TEMPLATES: TemplateItem[] = [
+  // 1. FACTURES & DEVIS
   {
-    id: 'tpl_01',
-    title: 'Facture d\'Abonnement Standard KONTROL',
+    id: 'tpl_invoice_standard',
+    title: 'Facture Standard Normalisée OHADA',
     category: 'factures',
-    currentVersion: 'v2.1',
-    lastModified: '2026-08-02 11:30',
+    docTypeLabel: 'Facture Commerciale',
+    currentVersion: 'v2.4',
+    lastModified: '2026-08-10',
     author: 'Admin KONTROL',
-    variables: ['{{client_nom}}', '{{entreprise_nom}}', '{{facture_num}}', '{{montant_ht}}', '{{montant_tva}}', '{{montant_ttc}}', '{{date_echeance}}', '{{lien_orange_money}}'],
-    content: `FACTURE N° {{facture_num}}
-KONTROL ERP – Société Editrice
+    variables: ['{{nom_entreprise}}', '{{adresse_entreprise}}', '{{pays}}', '{{ninea_rccm}}', '{{numero_facture}}', '{{date_facturation}}', '{{date_echeance}}', '{{client_nom}}', '{{montant_ht}}', '{{montant_tva}}', '{{montant_ttc}}', '{{reference_jiniuspay}}'],
+    content: `<!-- MODELE DE FACTURE NORMALISEE KONTROL -->
+<div class="invoice-box" style="font-family: sans-serif; padding: 24px; border: 1px solid #e2e8f0; border-radius: 8px;">
+  <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #003050; padding-bottom: 12px;">
+    <div>
+      <h2 style="color: #003050; margin: 0;">{{nom_entreprise}}</h2>
+      <p style="color: #64748b; margin: 4px 0;">{{adresse_entreprise}} - {{pays}}</p>
+      <p style="font-size: 11px; color: #64748b;">NINEA / RCCM : {{ninea_rccm}}</p>
+    </div>
+    <div style="text-align: right;">
+      <h3 style="color: #50B0E0; margin: 0;">FACTURE N° {{numero_facture}}</h3>
+      <p style="margin: 4px 0; font-size: 12px;">Émise le : {{date_facturation}}</p>
+      <p style="margin: 4px 0; font-size: 12px; color: #e11d48; font-weight: bold;">Échéance : {{date_echeance}}</p>
+    </div>
+  </div>
 
-CLIENT :
-{{entreprise_nom}}
-A l'attention de : {{client_nom}}
+  <div style="margin: 20px 0; padding: 12px; background: #f8fafc; border-radius: 6px;">
+    <h4 style="margin: 0 0 6px 0; color: #003050;">Facturé à :</h4>
+    <p style="margin: 0; font-weight: bold;">{{client_nom}}</p>
+  </div>
 
-DÉSIGNATION :
-Souscription Licence KONTROL ERP (Plan : {{plan_nom}})
-Période : Mensuelle d'Abonnement
+  <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+    <tr style="background: #003050; color: white; text-align: left;">
+      <th style="padding: 8px;">Désignation</th>
+      <th style="padding: 8px; text-align: right;">Montant HT (FCFA)</th>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 10px;">Prestations de services / Vente de marchandises</td>
+      <td style="padding: 10px; text-align: right; font-weight: bold;">{{montant_ht}}</td>
+    </tr>
+  </table>
 
-MONTANT HT : {{montant_ht}} XOF
-TVA (18%) : {{montant_tva}} XOF
-TOTAL NET A PAYER : {{montant_ttc}} XOF
+  <div style="margin-top: 20px; text-align: right;">
+    <p style="margin: 4px 0;">TVA (18%) : <strong>{{montant_tva}} FCFA</strong></p>
+    <h3 style="color: #003050; margin: 8px 0;">Total TTC : {{montant_ttc}} FCFA</h3>
+  </div>
 
-Payer directement par Mobile Money : {{lien_orange_money}}
-Date limite d'échéance : {{date_echeance}}`,
+  <div style="margin-top: 24px; padding: 12px; border-top: 1px dashed #cbd5e1; font-size: 11px; color: #64748b;">
+    <span>Règlement enregistré via l'agrégateur JiniusPay (Bordereau : {{reference_jiniuspay}} - Orange Money, MTN MoMo, Wave).</span>
+  </div>
+</div>`,
     versionHistory: [
       {
-        version: 'v2.1',
-        modifiedAt: '2026-08-02 11:30',
+        version: 'v2.4',
+        modifiedAt: '2026-08-10 14:00',
         modifiedBy: 'Admin KONTROL',
-        content: `FACTURE N° {{facture_num}}\nKONTROL ERP – Société Editrice\n...`,
-        comment: 'Ajout de la variable {{lien_orange_money}} et du montant TVA 18%.'
-      },
+        content: `<!-- MODELE DE FACTURE NORMALISEE KONTROL -->`,
+        comment: 'Conformité mentions légales OHADA & TVA régionale 18%'
+      }
+    ]
+  },
+
+  // 2. BONS
+  {
+    id: 'tpl_bon_commande',
+    title: 'Bon de Commande & Réception Fournisseur',
+    category: 'bons',
+    docTypeLabel: 'Bon de Commande',
+    currentVersion: 'v1.6',
+    lastModified: '2026-08-05',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{fournisseur_nom}}', '{{num_bon_commande}}', '{{date_emission}}', '{{lieu_livraison}}', '{{total_articles}}', '{{signature_acheteur}}'],
+    content: `<!-- MODELE BON DE COMMANDE KONTROL -->
+<div class="bon-commande-box" style="font-family: sans-serif; padding: 20px; border: 1px solid #cbd5e1; border-radius: 8px;">
+  <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #50B0E0; padding-bottom: 8px;">
+    <div>
+      <h2 style="color: #003050; margin: 0;">{{nom_entreprise}}</h2>
+      <p style="color: #64748b; font-size: 12px; margin: 4px 0;">BON DE COMMANDE OFFICIEL</p>
+    </div>
+    <div style="text-align: right;">
+      <h3 style="color: #003050; margin: 0;">N° {{num_bon_commande}}</h3>
+      <p style="font-size: 11px; margin: 2px 0;">Date : {{date_emission}}</p>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0; padding: 10px; background: #f1f5f9; border-radius: 6px;">
+    <p style="margin: 2px 0;"><strong>Fournisseur :</strong> {{fournisseur_nom}}</p>
+    <p style="margin: 2px 0;"><strong>Lieu de livraison prévu :</strong> {{lieu_livraison}}</p>
+  </div>
+
+  <div style="margin-top: 16px; border: 1px solid #e2e8f0; border-radius: 4px; padding: 12px;">
+    <p style="margin: 0; font-size: 12px;">Total des articles commandés : <strong>{{total_articles}}</strong></p>
+  </div>
+
+  <div style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 12px;">
+    <div>Visa Direction : ____________________</div>
+    <div>Signature Responsable Achat : {{signature_acheteur}}</div>
+  </div>
+</div>`,
+    versionHistory: [
       {
-        version: 'v2.0',
-        modifiedAt: '2026-06-15 09:00',
+        version: 'v1.6',
+        modifiedAt: '2026-08-05 09:20',
         modifiedBy: 'Admin KONTROL',
-        content: `FACTURE N° {{facture_num}}\nKONTROL ERP\n...`,
-        comment: 'Refonte complète du design de facture et mentions légales.'
-      },
-      {
-        version: 'v1.0',
-        modifiedAt: '2025-01-10 14:00',
-        modifiedBy: 'System Init',
-        content: `Facture KONTROL\nClient: {{client_nom}}\nMontant: {{montant_ttc}}`,
-        comment: 'Version initiale initiale créée à l\'installation.'
+        content: `<!-- MODELE BON DE COMMANDE KONTROL -->`,
+        comment: 'Ajout clause de conformité réception magasin'
       }
     ]
   },
   {
-    id: 'tpl_02',
-    title: 'Contrat de Licence ERP SaaS Enterprise',
-    category: 'contrats',
+    id: 'tpl_bon_livraison',
+    title: 'Bon de Livraison Client & Décharge',
+    category: 'bons',
+    docTypeLabel: 'Bon de Livraison',
     currentVersion: 'v1.4',
-    lastModified: '2026-07-18 16:45',
-    author: 'Service Juridique KONTROL',
-    variables: ['{{client_nom}}', '{{entreprise_nom}}', '{{siret_rccm}}', '{{date_signature}}', '{{sla_garantie}}'],
-    content: `CONTRAT DE LICENCE D'UTILISATION KONTROL ERP SAAS
+    lastModified: '2026-07-22',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{num_bon_livraison}}', '{{client_nom}}', '{{adresse_livraison}}', '{{transporteur}}', '{{date_reception}}', '{{emargement_client}}'],
+    content: `<!-- MODELE BON DE LIVRAISON KONTROL -->
+<div class="bon-livraison-box" style="font-family: sans-serif; padding: 20px; border: 1px solid #cbd5e1; border-radius: 8px;">
+  <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #003050; padding-bottom: 8px;">
+    <h2 style="color: #003050; margin: 0;">{{nom_entreprise}}</h2>
+    <h3 style="color: #50B0E0; margin: 0;">BON DE LIVRAISON N° {{num_bon_livraison}}</h3>
+  </div>
 
-ENTRE LES SOUSSIGNÉS :
-La Société KONTROL ERP SAS, d'une part,
-ET
-{{entreprise_nom}} (RCCM: {{siret_rccm}}), représentée par {{client_nom}}, d'autre part.
+  <div style="margin: 16px 0; font-size: 12.5px;">
+    <p><strong>Destinataire :</strong> {{client_nom}}</p>
+    <p><strong>Adresse de déchargement :</strong> {{adresse_livraison}}</p>
+    <p><strong>Transporteur / Chauffeur :</strong> {{transporteur}}</p>
+  </div>
 
-ARTICLE 1 : OBJET DU CONTRAT
-KONTROL ERP concède au Client un droit d'accès personnel, non exclusif et intransférable au logiciel KONTROL ERP SaaS.
+  <div style="margin-top: 24px; padding: 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; font-size: 11.5px;">
+    Mention : Les marchandises ont été reconnues conformes en quantité et qualité lors de la remise.
+  </div>
 
-ARTICLE 2 : GARANTIE DE SERVICE (SLA)
-Le taux de disponibilité garanti est fixé à {{sla_garantie}}% en mensuel.
-
-ARTICLE 3 : CONFIDENTIALITÉ & DONNÉES (AES-256)
-Les données sont hébergées de manière sécurisée avec chiffrement AES-256.
-
-Fait le {{date_signature}}.`,
+  <div style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 12px;">
+    <div>Date de remise : {{date_reception}}</div>
+    <div>Émargement & Cachet Client : {{emargement_client}}</div>
+  </div>
+</div>`,
     versionHistory: [
       {
         version: 'v1.4',
-        modifiedAt: '2026-07-18 16:45',
-        modifiedBy: 'Service Juridique KONTROL',
-        content: `CONTRAT DE LICENCE D'UTILISATION KONTROL ERP SAAS...`,
-        comment: 'Mise en conformité RGPD / Protection des données OHADA.'
+        modifiedAt: '2026-07-22 15:40',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE BON DE LIVRAISON KONTROL -->`,
+        comment: 'Standardisation du volet transporteur'
+      }
+    ]
+  },
+
+  // 3. FICHES
+  {
+    id: 'tpl_fiche_paie',
+    title: 'Bulletin de Paie / Fiche de Salaire Standard',
+    category: 'fiches',
+    docTypeLabel: 'Fiche de Paie',
+    currentVersion: 'v2.1',
+    lastModified: '2026-08-01',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{nom_salarie}}', '{{matricule_salarie}}', '{{poste_occupe}}', '{{periode_paie}}', '{{salaire_base}}', '{{primes_indemnites}}', '{{cotisations_sociales}}', '{{salaire_net_payer}}'],
+    content: `<!-- MODELE BULLETIN DE PAIE KONTROL -->
+<div class="fiche-paie-box" style="font-family: sans-serif; padding: 24px; border: 1px solid #cbd5e1; border-radius: 8px;">
+  <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #003050; padding-bottom: 10px;">
+    <div>
+      <h3 style="margin: 0; color: #003050;">{{nom_entreprise}}</h3>
+      <p style="margin: 2px 0; font-size: 11.5px; color: #64748b;">BULLETIN DE PAIE INDIVIDUEL</p>
+    </div>
+    <div style="text-align: right;">
+      <p style="margin: 0; font-weight: bold; color: #50B0E0;">Période : {{periode_paie}}</p>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0; padding: 12px; background: #f8fafc; border-radius: 6px; font-size: 12px;">
+    <p style="margin: 2px 0;"><strong>Salarié(e) :</strong> {{nom_salarie}} (Matricule : {{matricule_salarie}})</p>
+    <p style="margin: 2px 0;"><strong>Fonction / Poste :</strong> {{poste_occupe}}</p>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px;">
+    <tr style="background: #003050; color: white;">
+      <th style="padding: 6px 10px; text-align: left;">Éléments de rémunération</th>
+      <th style="padding: 6px 10px; text-align: right;">Montant (FCFA)</th>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Salaire de base brut</td>
+      <td style="padding: 8px; text-align: right;">{{salaire_base}}</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Primes et indemnités diverses</td>
+      <td style="padding: 8px; text-align: right;">+ {{primes_indemnites}}</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px; color: #e11d48;">Cotisations sociales & Retenues fiscales (IPRES/CNSS/CSS)</td>
+      <td style="padding: 8px; text-align: right; color: #e11d48;">- {{cotisations_sociales}}</td>
+    </tr>
+  </table>
+
+  <div style="margin-top: 18px; padding: 12px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-weight: bold; color: #065f46;">NET À PAYER :</span>
+    <span style="font-size: 16px; font-weight: 900; color: #065f46;">{{salaire_net_payer}} FCFA</span>
+  </div>
+</div>`,
+    versionHistory: [
+      {
+        version: 'v2.1',
+        modifiedAt: '2026-08-01 11:15',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE BULLETIN DE PAIE KONTROL -->`,
+        comment: 'Mise à jour barème cotisations IPRES / CSS'
       }
     ]
   },
   {
-    id: 'tpl_03',
-    title: 'Email de Relance - Échéance Imminente',
-    category: 'emails',
-    currentVersion: 'v3.0',
-    lastModified: '2026-08-01 08:15',
-    author: 'Support Client',
-    variables: ['{{client_nom}}', '{{plan_nom}}', '{{next_billing_date}}', '{{pay_link}}'],
-    content: `Objet: [KONTROL ERP] Votre abonnement {{plan_nom}} arrive à échéance le {{next_billing_date}}
-
-Bonjour {{client_nom}},
-
-Nous vous rappelons que votre abonnement KONTROL ERP (Plan {{plan_nom}}) sera renouvelé automatiquement le {{next_billing_date}}.
-
-Pour éviter toute interruption de vos services et garder le contrôle sur vos stocks et factures, veuillez vérifier votre moyen de paiement :
-
-Lien de paiement sécurisé (Orange Money / MTN / CB) :
-{{pay_link}}
-
-L'équipe KONTROL ERP reste à votre entière disposition.`,
+    id: 'tpl_fiche_client',
+    title: 'Fiche Synthèse Client & Compte Tier',
+    category: 'fiches',
+    docTypeLabel: 'Fiche Client',
+    currentVersion: 'v1.2',
+    lastModified: '2026-07-10',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{client_nom}}', '{{client_rc}}', '{{client_telephone}}', '{{client_email}}', '{{plafond_credit}}', '{{encours_actuel}}'],
+    content: `<!-- MODELE FICHE CLIENT KONTROL -->
+<div class="fiche-client-box" style="font-family: sans-serif; padding: 20px; border: 1px solid #cbd5e1; border-radius: 8px;">
+  <h3 style="color: #003050; margin: 0 0 12px 0;">FICHE DE RENSEIGNEMENT CLIENT CRM</h3>
+  <p><strong>Raison Sociale :</strong> {{client_nom}}</p>
+  <p><strong>RC / NINEA :</strong> {{client_rc}}</p>
+  <p><strong>Téléphone :</strong> {{client_telephone}} | <strong>Email :</strong> {{client_email}}</p>
+  <p><strong>Plafond de crédit autorisé :</strong> {{plafond_credit}} FCFA</p>
+  <p><strong>Encours financier actuel :</strong> {{encours_actuel}} FCFA</p>
+</div>`,
     versionHistory: [
       {
-        version: 'v3.0',
-        modifiedAt: '2026-08-01 08:15',
-        modifiedBy: 'Support Client',
-        content: `Objet: [KONTROL ERP] Votre abonnement {{plan_nom}}...`,
-        comment: 'Optimisation de la clarté du call to action et ajout lien direct.'
+        version: 'v1.2',
+        modifiedAt: '2026-07-10 14:00',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE FICHE CLIENT KONTROL -->`,
+        comment: 'Ajout suivi de l\'encours autorisé'
+      }
+    ]
+  },
+
+  // 4. CONTRATS
+  {
+    id: 'tpl_contrat_prestation',
+    title: 'Contrat de Prestation de Services B2B',
+    category: 'contrats',
+    docTypeLabel: 'Contrat Prestation',
+    currentVersion: 'v1.8',
+    lastModified: '2026-08-01',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{prestataire_nom}}', '{{objet_mission}}', '{{duree_contrat}}', '{{montant_honoraires}}', '{{modalites_paiement}}', '{{date_signature}}'],
+    content: `<!-- MODELE DE CONTRAT PRESTATION KONTROL -->
+<div class="contrat-box" style="font-family: sans-serif; padding: 24px; border: 1px solid #cbd5e1; border-radius: 8px; line-height: 1.6;">
+  <h2 style="color: #003050; text-align: center; margin-top: 0;">CONTRAT DE PRESTATION DE SERVICES</h2>
+  
+  <p><strong>ENTRE LES SOUSSIGNÉS :</strong></p>
+  <p>La société <strong>{{nom_entreprise}}</strong>, d'une part,<br/>
+  ET <strong>{{prestataire_nom}}</strong>, d'autre part.</p>
+
+  <h4 style="color: #003050; margin-bottom: 4px;">Article 1 - Objet de la mission</h4>
+  <p style="margin-top: 0;">{{objet_mission}}</p>
+
+  <h4 style="color: #003050; margin-bottom: 4px;">Article 2 - Durée et Exécution</h4>
+  <p style="margin-top: 0;">Le présent contrat est conclu pour une durée de : {{duree_contrat}}.</p>
+
+  <h4 style="color: #003050; margin-bottom: 4px;">Article 3 - Rémunération et Modalités</h4>
+  <p style="margin-top: 0;">Montant convenu : <strong>{{montant_honoraires}} FCFA</strong> selon les modalités suivantes : {{modalites_paiement}}.</p>
+
+  <div style="margin-top: 36px; display: flex; justify-content: space-between;">
+    <div>Fait le : {{date_signature}}<br/>Pour l'Entreprise (Cachet)</div>
+    <div>Pour le Prestataire (Signature)</div>
+  </div>
+</div>`,
+    versionHistory: [
+      {
+        version: 'v1.8',
+        modifiedAt: '2026-08-01 10:00',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE DE CONTRAT PRESTATION KONTROL -->`,
+        comment: 'Ajout clause de confidentialité'
+      }
+    ]
+  },
+  {
+    id: 'tpl_contrat_travail',
+    title: 'Contrat de Travail à Durée Indéterminée (CDI)',
+    category: 'contrats',
+    docTypeLabel: 'Contrat de Travail',
+    currentVersion: 'v1.5',
+    lastModified: '2026-06-18',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{nom_employe}}', '{{titre_poste}}', '{{date_embauche}}', '{{salaire_mensuel_brut}}', '{{lieu_travail}}'],
+    content: `<!-- MODELE CONTRAT DE TRAVAIL KONTROL -->
+<div class="contrat-travail-box" style="font-family: sans-serif; padding: 24px; border: 1px solid #cbd5e1; border-radius: 8px;">
+  <h2 style="color: #003050; text-align: center; margin-top: 0;">CONTRAT DE TRAVAIL À DURÉE INDÉTERMINÉE</h2>
+  <p>L'employeur <strong>{{nom_entreprise}}</strong> engage <strong>{{nom_employe}}</strong> en qualité de <strong>{{titre_poste}}</strong> à compter du <strong>{{date_embauche}}</strong>.</p>
+  <p>Lieu d'affectation : {{lieu_travail}}.</p>
+  <p>Rémunération mensuelle brute : <strong>{{salaire_mensuel_brut}} FCFA</strong>.</p>
+</div>`,
+    versionHistory: [
+      {
+        version: 'v1.5',
+        modifiedAt: '2026-06-18 16:30',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE CONTRAT DE TRAVAIL KONTROL -->`,
+        comment: 'Mise en conformité Code du Travail'
+      }
+    ]
+  },
+
+  // 5. REÇUS & BORDEREAUX
+  {
+    id: 'tpl_recu_paiement',
+    title: 'Bordereau & Quittance d\'Abonnement GeniuSPay',
+    category: 'recus',
+    docTypeLabel: 'Bordereau de Règlement',
+    currentVersion: 'v2.0',
+    lastModified: '2026-08-12',
+    author: 'Admin KONTROL',
+    variables: ['{{nom_entreprise}}', '{{numero_bordereau}}', '{{client_nom}}', '{{montant_abonnement}}', '{{reseau_paiement}}', '{{reference_geniuspay}}', '{{date_reglement}}'],
+    content: `<!-- MODELE BORDEREAU D'ABONNEMENT GENIUSPAY -->
+<div class="recu-box" style="font-family: sans-serif; padding: 20px; border: 2px dashed #003050; border-radius: 8px; background: #fdfefe;">
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px;">
+    <h3 style="color: #003050; margin: 0;">{{nom_entreprise}}</h3>
+    <span style="font-weight: bold; color: #16a34a; font-size: 13px;">BORDEREAU D'ABONNEMENT N° {{numero_bordereau}}</span>
+  </div>
+
+  <div style="margin: 16px 0; font-size: 13px; line-height: 1.6;">
+    <p>Souscripteur : <strong>{{client_nom}}</strong></p>
+    <p>Objet : <strong>Abonnement Licence KONTROL Standard</strong></p>
+    <p>Montant encaissé : <strong style="font-size: 16px; color: #003050;">{{montant_abonnement}} FCFA</strong></p>
+    <p>Moyen de Paiement : <strong>GeniuSPay</strong> (Réseau : <strong>{{reseau_paiement}}</strong>)</p>
+    <p>Réf. Bordereau : <strong>{{reference_geniuspay}}</strong></p>
+    <p>Date d'encaissement : <strong>{{date_reglement}}</strong></p>
+  </div>
+
+  <div style="text-align: right; margin-top: 20px; font-size: 12px;">
+    <p>Pour acquit et quittance d'abonnement,</p>
+    <p><strong>Service Comptable KONTROL</strong></p>
+  </div>
+</div>`,
+    versionHistory: [
+      {
+        version: 'v2.0',
+        modifiedAt: '2026-08-12 11:00',
+        modifiedBy: 'Admin KONTROL',
+        content: `<!-- MODELE BORDEREAU D'ABONNEMENT GENIUSPAY -->`,
+        comment: 'Standardisation bordereau GeniuSPay pour abonnements'
       }
     ]
   }
 ];
 
+// ======================== UTILISATEURS ADMINISTRATEURS BACK-OFFICE ========================
+export const INITIAL_ADMIN_USERS: AdminUser[] = [
+  {
+    id: 'adm_01',
+    name: 'Amadou Diallo',
+    email: 'admin.super@kontrol.io',
+    role: 'super_admin',
+    status: 'active',
+    lastLogin: 'A l\'instant',
+    createdAt: '2025-01-10',
+    phone: '+221 77 452 18 90',
+    department: 'Direction',
+    permissions: ['ALL_ACCESS', 'MANAGE_USERS', 'MANAGE_BILLING', 'MANAGE_TEMPLATES', 'VIEW_AUDIT', 'MANAGE_ADMINS']
+  },
+  {
+    id: 'adm_02',
+    name: 'Awa Diop',
+    email: 'finance@kontrol.io',
+    role: 'financial_admin',
+    status: 'active',
+    lastLogin: 'Aujourd\'hui 11:20',
+    createdAt: '2025-03-15',
+    phone: '+221 78 120 45 67',
+    department: 'Finance',
+    permissions: ['VIEW_BILLING', 'MANAGE_PAYMENTS', 'EXPORT_DATA', 'VIEW_SUBSCRIPTIONS']
+  },
+  {
+    id: 'adm_03',
+    name: 'Moussa Konaté',
+    email: 'support.lead@kontrol.io',
+    role: 'support_agent',
+    status: 'active',
+    lastLogin: 'Hier 17:30',
+    createdAt: '2025-05-20',
+    phone: '+225 05 44 33 22',
+    department: 'Support',
+    permissions: ['MANAGE_TICKETS', 'REPLY_TICKETS', 'VIEW_CLIENTS']
+  },
+  {
+    id: 'adm_04',
+    name: 'Fatimata Traoré',
+    email: 'templates@kontrol.io',
+    role: 'content_manager',
+    status: 'active',
+    lastLogin: 'Il y a 2 jours',
+    createdAt: '2025-08-01',
+    phone: '+223 76 99 88 77',
+    department: 'Produit',
+    permissions: ['MANAGE_TEMPLATES', 'PUBLISH_VERSIONS', 'PREVIEW_DOCS']
+  }
+];
+
+// ======================== TICKETS SUPPORT ========================
 export const INITIAL_TICKETS: SupportTicket[] = [
   {
-    id: 'tkt_801',
-    ticketNumber: 'TKT-2026-0801',
-    clientName: 'Aïcha Kone',
-    company: 'Ivoire Tech Solutions',
-    subject: 'Échec du renouvellement par MTN Mobile Money',
-    category: 'facturation',
+    id: 'tkt_01',
+    ticketNumber: 'TKT-1042',
+    clientName: 'Amadou Diallo',
+    company: 'Agro Dakar SA',
+    subject: 'Confirmation de renouvellement GeniuSPay',
+    category: 'genius_pay',
     priority: 'urgent',
     status: 'open',
-    assignedTo: 'Moussa Traoré (Support N2)',
-    createdAt: '2026-08-08 15:10',
-    slaMinutesRemaining: 38,
+    assignedTo: 'Moussa Konaté',
+    createdAt: '2026-08-20',
+    slaMinutesRemaining: 45,
     messages: [
       {
         id: 'msg_1',
-        sender: 'Aïcha Kone',
-        isAgent: false,
-        content: 'Bonjour, j\'essaie de valider le paiement de mon abonnement Pro via MTN Mobile Money Côte d\'Ivoire mais le push OTP n\'arrive pas sur mon téléphone (+225 07 88 12 34 56). Merci de vérifier le statut de la passerelle.',
-        timestamp: '2026-08-08 15:10'
-      },
-      {
-        id: 'msg_2',
-        sender: 'System Bot',
-        isAgent: true,
-        content: '[Note Interne Automatique] Détection d\'une latence de 4200ms sur le gateway MTN CI. Le ticket a été surclassé en URGENT (SLA 1h).',
-        timestamp: '2026-08-08 15:11',
-        isInternalNote: true
-      }
-    ]
-  },
-  {
-    id: 'tkt_802',
-    ticketNumber: 'TKT-2026-0798',
-    clientName: 'Amadou Diallo',
-    company: 'Africom Logistics & Distribution',
-    subject: 'Demande de webhook sur-mesure pour synchronisation SAP',
-    category: 'intégration',
-    priority: 'high',
-    status: 'in_progress',
-    assignedTo: 'Cheikh Ndiaye (Lead Tech)',
-    createdAt: '2026-08-08 11:20',
-    slaMinutesRemaining: 145,
-    messages: [
-      {
-        id: 'msg_10',
         sender: 'Amadou Diallo',
         isAgent: false,
-        content: 'Bonjour l\'équipe KONTROL, nous aimerions recevoir les événements de validation de facture directement sur notre serveur SAP via HTTPS POST signé HMAC-SHA256.',
-        timestamp: '2026-08-08 11:20'
-      },
-      {
-        id: 'msg_11',
-        sender: 'Cheikh Ndiaye',
-        isAgent: true,
-        content: 'Bonjour M. Diallo, nous avons préparé la clé secrète HMAC dans votre espace développeur. Pouvez-vous tester le webhook sandbox ?',
-        timestamp: '2026-08-08 13:00'
+        content: 'Bonjour, notre règlement d\'abonnement via GeniuSPay de 15 000 FCFA a bien été validé, merci de confirmer la quittance.',
+        timestamp: '2026-08-20 11:30'
       }
     ]
   },
   {
-    id: 'tkt_803',
-    ticketNumber: 'TKT-2026-0790',
-    clientName: 'Jean-Marc Bamba',
-    company: 'Sahel Pharma Distribution',
-    subject: 'Ajout de 2 utilisateurs supplémentaires au plan Starter',
-    category: 'compte',
+    id: 'tkt_02',
+    ticketNumber: 'TKT-1043',
+    clientName: 'Koffi Mensah',
+    company: 'Sahel Logistics CI',
+    subject: 'Personnalisation du modèle de bon de livraison',
+    category: 'technique',
     priority: 'normal',
-    status: 'waiting',
-    assignedTo: 'Mariam Coulibaly',
-    createdAt: '2026-08-07 16:00',
-    slaMinutesRemaining: 520,
+    status: 'in_progress',
+    assignedTo: 'Fatimata Traoré',
+    createdAt: '2026-08-21',
+    slaMinutesRemaining: 180,
     messages: [
       {
-        id: 'msg_20',
-        sender: 'Jean-Marc Bamba',
+        id: 'msg_2',
+        sender: 'Koffi Mensah',
         isAgent: false,
-        content: 'Comment ajouter 2 pharmaciens de plus dans le module de vente sans passer directement au plan Pro ?',
-        timestamp: '2026-08-07 16:00'
-      }
-    ]
-  },
-  {
-    id: 'tkt_804',
-    ticketNumber: 'TKT-2026-0750',
-    clientName: 'Fatou Ndiaye',
-    company: 'Dakar Retail Group',
-    subject: 'Demande de duplicata de facture de Juillet',
-    category: 'facturation',
-    priority: 'low',
-    status: 'resolved',
-    assignedTo: 'Mariam Coulibaly',
-    createdAt: '2026-08-04 10:00',
-    slaMinutesRemaining: 0,
-    messages: [
-      {
-        id: 'msg_30',
-        sender: 'Fatou Ndiaye',
-        isAgent: false,
-        content: 'Bonjour, merci de m\'envoyer la facture payée du 01/07.',
-        timestamp: '2026-08-04 10:00'
-      },
-      {
-        id: 'msg_31',
-        sender: 'Mariam Coulibaly',
-        isAgent: true,
-        content: 'Bonjour Mme Ndiaye, la facture vous a été renvoyée par email et reste téléchargeable sur votre portail.',
-        timestamp: '2026-08-04 10:25'
+        content: 'Bonjour, nous souhaitons insérer le champ matricule du camion sur nos bons de livraison.',
+        timestamp: '2026-08-21 09:15'
       }
     ]
   }
 ];
 
+// ======================== JOURNAL D'AUDIT ========================
 export const INITIAL_AUDIT_LOGS: AuditLog[] = [
   {
-    id: 'log_901',
-    timestamp: '2026-08-08 18:02:14',
+    id: 'log_01',
+    timestamp: '2026-08-22 14:30:10',
     actor: 'admin.super@kontrol.io',
-    actorRole: 'Super Admin',
-    action: 'SUSPEND_USER',
-    target: 'Sarah Jenkins (usr_04)',
-    ip: '197.224.12.1',
-    severity: 'alert',
-    hashSignature: '0xe83f2a10b99182d38472910293128472891029384712039128374'
-  },
-  {
-    id: 'log_902',
-    timestamp: '2026-08-08 15:11:00',
-    actor: 'system.gateway',
-    actorRole: 'Service Process',
-    action: 'PAYMENT_CALLBACK_SUCCESS',
-    target: 'Transaction OM-SN-20260808-8849102',
-    ip: '10.0.4.12',
+    actorRole: 'super_admin',
+    action: 'SYSTEM_SYNC',
+    target: 'KONTROL ERP Engine',
     severity: 'info',
-    hashSignature: '0xa1192837491029384712938471293847129384712938471293'
+    hashSignature: '0x8f19ab23c91029e8471629fa'
   },
   {
-    id: 'log_903',
-    timestamp: '2026-08-08 11:30:22',
-    actor: 'admin.juridique@kontrol.io',
-    actorRole: 'Content Manager',
-    action: 'TEMPLATE_UPDATE_VERSION',
-    target: 'Facture d\'Abonnement Standard (tpl_01 -> v2.1)',
-    ip: '197.224.12.89',
+    id: 'log_02',
+    timestamp: '2026-08-22 13:10:00',
+    actor: 'finance@kontrol.io',
+    actorRole: 'financial_admin',
+    action: 'TRANSACTION_VALIDATED',
+    target: 'GP_TX_98415 - Abonnement 15 000 FCFA',
     severity: 'info',
-    hashSignature: '0xc8293019283749102938471293847129384712938471293847'
-  },
-  {
-    id: 'log_904',
-    timestamp: '2026-08-07 22:15:00',
-    actor: 'admin.finance@kontrol.io',
-    actorRole: 'Financial Admin',
-    action: 'MANUAL_RENEWAL_TRIGGER',
-    target: 'Abonnement sub_105 (Fatou Ndiaye)',
-    ip: '41.202.219.10',
-    severity: 'warning',
-    hashSignature: '0xf9281029384712039128374910293847129384712938471293'
-  },
-  {
-    id: 'log_905',
-    timestamp: '2026-08-06 09:00:10',
-    actor: 'admin.super@kontrol.io',
-    actorRole: 'Super Admin',
-    action: 'ROLE_PERMISSIONS_UPDATE',
-    target: 'Rôle Support Agent: +CanViewFinancialReports',
-    ip: '197.224.12.1',
-    severity: 'warning',
-    hashSignature: '0x38291029384712039128374910293847129384712938471293'
+    hashSignature: '0x4e29bb991023da45827721cc'
   }
 ];
 
+// ======================== SESSIONS ========================
 export const INITIAL_SESSIONS: ActiveSession[] = [
   {
-    id: 'sess_1',
+    id: 'sess_01',
     userEmail: 'admin.super@kontrol.io',
-    userName: 'Super Admin KONTROL',
-    ip: '197.224.12.1',
-    device: 'Chrome 127 / macOS Sonoma',
-    location: 'Dakar, SN (HQ)',
-    loginTime: '2026-08-08 08:30:00',
+    userName: 'Amadou Diallo',
+    device: 'Chrome 124 (macOS)',
+    location: 'Dakar, Sénégal',
+    loginTime: '2026-08-22 08:00:00',
     lastActive: 'A l\'instant',
     isCurrent: true
-  },
-  {
-    id: 'sess_2',
-    userEmail: 'moussa.t@kontrol.io',
-    userName: 'Moussa Traoré (Support)',
-    ip: '160.155.10.4',
-    device: 'Firefox 128 / Windows 11',
-    location: 'Abidjan, CI',
-    loginTime: '2026-08-08 12:15:00',
-    lastActive: 'Il y a 5 min'
-  },
-  {
-    id: 'sess_3',
-    userEmail: 'mariam.c@kontrol.io',
-    userName: 'Mariam Coulibaly (Finance)',
-    ip: '41.73.100.12',
-    device: 'Safari / iPad Pro',
-    location: 'Bamako, ML',
-    loginTime: '2026-08-08 14:00:00',
-    lastActive: 'Il y a 22 min'
   }
 ];
 
+// ======================== MOYENS DE PAIEMENT VIA GENIUSPAY ========================
 export const GATEWAYS_STATUS: GatewayStatus[] = [
   {
     name: 'Orange Money',
+    network: 'Orange Money',
     key: 'orange_money',
     status: 'operational',
     mode: 'live',
-    latencyMs: 145,
-    volume24h: 38500000
+    latencyMs: 180,
+    volume24h: 30000,
+    provider: 'GeniuSPay'
   },
   {
     name: 'MTN Mobile Money',
+    network: 'MTN Mobile Money',
     key: 'mtn_money',
-    status: 'degraded',
-    mode: 'live',
-    latencyMs: 3200,
-    volume24h: 18200000
-  },
-  {
-    name: 'Stripe',
-    key: 'stripe',
     status: 'operational',
     mode: 'live',
-    latencyMs: 82,
-    volume24h: 14200000
+    latencyMs: 200,
+    volume24h: 15000,
+    provider: 'GeniuSPay'
   },
   {
-    name: 'PayPal',
-    key: 'paypal',
+    name: 'Wave',
+    network: 'Wave',
+    key: 'wave',
     status: 'operational',
     mode: 'live',
-    latencyMs: 110,
-    volume24h: 8900000
+    latencyMs: 130,
+    volume24h: 15000,
+    provider: 'GeniuSPay'
   }
-];
-
-export const REVENUE_MONTHLY_DATA = [
-  { month: 'Jan', mrr: 12500000, orangeMoney: 6200000, mtnMoney: 3800000, stripe: 1500000, paypal: 1000000 },
-  { month: 'Fév', mrr: 14200000, orangeMoney: 7100000, mtnMoney: 4200000, stripe: 1800000, paypal: 1100000 },
-  { month: 'Mar', mrr: 16800000, orangeMoney: 8500000, mtnMoney: 4900000, stripe: 2100000, paypal: 1300000 },
-  { month: 'Avr', mrr: 18900000, orangeMoney: 9800000, mtnMoney: 5400000, stripe: 2200000, paypal: 1500000 },
-  { month: 'Mai', mrr: 21400000, orangeMoney: 11200000, mtnMoney: 6100000, stripe: 2500000, paypal: 1600000 },
-  { month: 'Juin', mrr: 24100000, orangeMoney: 12800000, mtnMoney: 6800000, stripe: 2800000, paypal: 1700000 },
-  { month: 'Juil', mrr: 26800000, orangeMoney: 14100000, mtnMoney: 7500000, stripe: 3200000, paypal: 2000000 },
-  { month: 'Aoû', mrr: 29800000, orangeMoney: 15900000, mtnMoney: 8100000, stripe: 3600000, paypal: 2200000 }
 ];

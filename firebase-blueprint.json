@@ -1,0 +1,141 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Utilisateurs et clients de KONTROL ERP",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "company": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "suspended", "pending"] },
+        "role": { "type": "string" },
+        "plan": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "mrr": { "type": "number" },
+        "lastLogin": { "type": "string" },
+        "ip": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "email", "company", "status", "role", "plan"]
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "Abonnements et licences actives",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "company": { "type": "string" },
+        "planName": { "type": "string" },
+        "price": { "type": "number" },
+        "billingCycle": { "type": "string" },
+        "status": { "type": "string" },
+        "startDate": { "type": "string" },
+        "nextBillingDate": { "type": "string" },
+        "autoRenew": { "type": "boolean" },
+        "paymentChannel": { "type": "string" },
+        "daysRemaining": { "type": "number" }
+      },
+      "required": ["userId", "userName", "planName", "price", "status"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Historique des transactions Mobile Money et CB",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "transactionId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "company": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "gateway": { "type": "string" },
+        "status": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["transactionId", "clientName", "amount", "gateway", "status"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Tickets d'assistance et support client SLA",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ticketNumber": { "type": "string" },
+        "clientName": { "type": "string" },
+        "company": { "type": "string" },
+        "subject": { "type": "string" },
+        "category": { "type": "string" },
+        "priority": { "type": "string" },
+        "status": { "type": "string" },
+        "assignedTo": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "slaMinutesRemaining": { "type": "number" }
+      },
+      "required": ["ticketNumber", "clientName", "subject", "priority", "status"]
+    },
+    "TemplateItem": {
+      "title": "TemplateItem",
+      "description": "Modèles de factures, contrats et emails",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "currentVersion": { "type": "string" },
+        "lastModified": { "type": "string" },
+        "author": { "type": "string" },
+        "content": { "type": "string" }
+      },
+      "required": ["title", "category", "currentVersion", "content"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Journal d'audit immuable de sécurité AES-256",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "actor": { "type": "string" },
+        "actorRole": { "type": "string" },
+        "action": { "type": "string" },
+        "target": { "type": "string" },
+        "ip": { "type": "string" },
+        "severity": { "type": "string" },
+        "hashSignature": { "type": "string" }
+      },
+      "required": ["timestamp", "actor", "action", "severity"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Utilisateurs et clients KONTROL"
+    },
+    "/subscriptions/{subId}": {
+      "schema": "Subscription",
+      "description": "Abonnements"
+    },
+    "/transactions/{txId}": {
+      "schema": "Transaction",
+      "description": "Paiements"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "SupportTicket",
+      "description": "Tickets"
+    },
+    "/templates/{templateId}": {
+      "schema": "TemplateItem",
+      "description": "Modèles"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Logs d'audit"
+    }
+  }
+}

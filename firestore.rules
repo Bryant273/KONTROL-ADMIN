@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Open access for ERP administration in current application scope
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
