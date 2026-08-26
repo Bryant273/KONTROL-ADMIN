@@ -1,6 +1,6 @@
 {
   "name": "KONTROL ERP - Admin Interface",
-  "description": "Interface d'administration centrale pour KONTROL ERP : gestion des utilisateurs, abonnements, paiements Orange Money/MTN/Stripe, templates, tickets SLA et tableaux de bord.",
+  "description": "Interface d'administration centrale pour KONTROL ERP : gestion des entreprises clientes, abonnements STANDARD à 15 000 FCFA/mois, bordereaux de paiement GeniuSPay (Orange Money, MTN, Wave, Carte), modèles de documents, tickets SLA et journal d'audit.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
